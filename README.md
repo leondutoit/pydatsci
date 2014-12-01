@@ -4,21 +4,21 @@ The aim of the course is to expose participants to practical data analysis and v
 
 #### Outline
 
-1. Essential programming and data tools
+Essential programming and data tools
 * version control
 * collaboration platforms
 * virtual machines
 * python intro
 * sqlite database
 
-2. Data manipulation and web apps
+Data manipulation and web apps
 * using the python pandas library for data manipulation
 * Flask web framework
 
-3. Web based interactive visualisation
+Web based interactive visualisation
 * make a small dashboard with Javascript, html and css
 * an intro to the d3 Javascript
 
-4. Visualisation tools for analysis
+Visualisation tools for analysis
 * presentation graphics vs. exploratory graphics
 * python statistical graphics libraries
