@@ -22,3 +22,24 @@ Web based interactive visualisation
 Visualisation tools for analysis
 * presentation graphics vs. exploratory graphics
 * python statistical graphics libraries
+
+#### Preparations
+
+Before the workshop I recommend you do the following two things: get the vagrant virtual machine running on your machine, and get to know git if you are not already familiar with it. Follow the instructions below to do so.
+
+#### Get vagrant running
+
+1. Download and install Oracle Virtual Box [here](http://download.virtualbox.org/virtualbox/4.2.0/)
+2. Download and install Vagrant for you platform [here](https://www.vagrantup.com/downloads)
+3. Install Virtual Box Guest Additions: `$ vagrant plugin install vagrant-vbguest`
+3.1 Download and install [git](http://git-scm.com/downloads) if you do not aleady have it 
+4. Checkout this repository: `$ git clone https://github.com/leondutoit/pydatsci.git`
+5. Navigate to the repository folder locally: `$ cd shiny-server-on-ubuntu`
+6. Run: `$ vagrant up` - this will take a while...
+
+You can now log in to the VM by doing `$ vagrant ssh`. Once logged in go to the `pydatsci` git folder: `$ cd /vagrant/pydatsci`. Once there run the test script `./test.sh`. If this runs without reporting an error you are all set to go.
+
+
+#### Try git
+
+If you do not know about version control with git then it is a good idea to try it out [here](https://try.github.io/levels/1/challenges/1) to see what it is all about.
