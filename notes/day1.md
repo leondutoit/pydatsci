@@ -75,6 +75,10 @@ Language info, repl etc
 
 #### sqlite
 
+[sqlite](http://www.sqlite.org/), the words of the official website, is a "software library that implements a self-contained, severless, zero-configuration, transactional SQL database engine". This makes it [different](http://www.sqlite.org/different.html) from other widely used SQL (structured query language) databases such as postgreSQL and MySQL. We will use it because of its light footprint, availability and portability. What we learn from working with sqlite will easily transfer to other relational databases.
+
+To get started open the interactive prompt:
+
 ```sql
 -- start an interactive session
 $ sqlite3
@@ -112,7 +116,7 @@ We now have a `people` table with data about each person. Next we create an `eve
 ```sql
 PRAGMA foreign_keys = ON;
 
-create table events2(
+create table events(
     id integer primary key asc,
     event_name text,
     event_time timestamp,
@@ -120,35 +124,68 @@ create table events2(
     foreign key(person_id) references people(id)
 );
 
-insert into events2(event_name, event_time, person_id)
+insert into events(event_name, event_time, person_id)
     values('coffee', '2014-11-06 08:01:10', 1);
-insert into events2(event_name, event_time, person_id)
+insert into events(event_name, event_time, person_id)
     values('climb', '2014-11-07 17:15:01', 1);
-insert into events2(event_name, event_time, person_id)
+insert into events(event_name, event_time, person_id)
     values('yoga', '2014-11-05 18:30:50', 4);
-insert into events2(event_name, event_time, person_id)
+insert into events(event_name, event_time, person_id)
     values('write', '2014-11-07 06:23:10', 2);
-insert into events2(event_name, event_time, person_id)
+insert into events(event_name, event_time, person_id)
     values('coffee', '2014-11-07 06:45:34', 3);
-insert into events2(event_name, event_time, person_id)
+insert into events(event_name, event_time, person_id)
     values('read', '2014-11-07 17:11:11', 3);
-insert into events2(event_name, event_time, person_id)
+insert into events(event_name, event_time, person_id)
     values('read', '2014-11-07 17:10:44', 4);
-insert into events2(event_name, event_time, person_id)
+insert into events(event_name, event_time, person_id)
     values('coffee', '2014-11-07 10:30:03', 2);
 ```
 
 Now that we have data in two related tables we can do some interesting SQL queries.
 
 ```sql
+-- wildcard reference to all columns
 select * from people;
 select * from events;
--- and more intersting ones please
+
+-- named columns
+select name, surname, age from people;
+select event_name, event_time from events;
+
+-- limiting printed output
+select * from people limit 1;
+
+-- sorting results
+select * from people order by name desc;
+select * from events order by event_time asc;
+
+-- conditions
+select * from people where name = 'Leon';
+select * from people where name != 'Leon';
+select * from people where name like 'L%';
+select * from people where name like 'L%' and height > 1.75;
+select * from people where name like 'L%' or height > 1.75;
+select * from people where name not like 'L%';
+
+-- aggregations and grouping
+select birthplace, count(*) as num_people from people group by birthplace;
+select gender, avg(height) as ave_height from people group by gender;
 ```
 
-We have now seen some of the essential features of SQL and sqlite but the data we manufactured was not very interesting. A more realistic scenario would be one where we have a data file that we want to analyse. 
+So far we have only operated on single tables.
+
+```sql
+-- joins
+```
+
+We have now seen some of the essential features of SQL and sqlite but the data we manufactured was not very interesting. A more realistic scenario would be one where we have a data file that we want to analyse. We will use the data in the repo located in the `data/WHATDATATOGETHMMMM.csv` file.
 
 ```sql
 -- import file into db and do the things
 ```
+
+#### Further reading
+
+
 
