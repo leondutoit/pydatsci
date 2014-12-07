@@ -70,12 +70,15 @@ Language info, repl etc
 
 #### Packages
 
+#### An example program
+
+do something simple like read command args mangle it spit it out again
 
 ### Relational databases
 
 #### sqlite
 
-[sqlite](http://www.sqlite.org/), the words of the official website, is a "software library that implements a self-contained, severless, zero-configuration, transactional SQL database engine". This makes it [different](http://www.sqlite.org/different.html) from other widely used SQL (structured query language) databases such as postgreSQL and MySQL. We will use it because of its light footprint, availability and portability. What we learn from working with sqlite will easily transfer to other relational databases.
+[sqlite](http://www.sqlite.org/), in the words of the official website, is a "software library that implements a self-contained, severless, zero-configuration, transactional SQL database engine". This makes it [different](http://www.sqlite.org/different.html) from other widely used SQL (structured query language) databases such as [PostgreSQL](LINKME) and [MySQL](LINKME). We will use it because of its light footprint, availability and portability. What we learn from working with sqlite will easily transfer to other relational databases.
 
 To get started open the interactive prompt:
 
@@ -173,10 +176,35 @@ select birthplace, count(*) as num_people from people group by birthplace;
 select gender, avg(height) as ave_height from people group by gender;
 ```
 
-So far we have only operated on single tables.
+So far we have only operated on single tables. We can look at the two tables together using `joins`.
 
 ```sql
--- joins
+-- cross joins
+select * from people cross join events;
+
+-- inner join
+select * from people join events on people.id = events.person_id;
+
+-- outer join
+-- to make this interesting we need to add another person to the people table
+insert into people(name, surname, birthplace, gender, height)
+    values('Niel', 'Bekker', 'South Africa', 'male', 1.82);
+select * from people left outer join events on people.id = events.person_id;
+```
+
+Sometimes you need to compute metrics that will not be readable or possible with a single query. Typically one uses a subquery to produce a first result set and then an outer query to operate on the first set. Here is a simple example:
+
+```sql
+-- per person, per date, number of events
+select 
+    a.name as name,
+    date(a.event_time) as et,
+    count(*) 
+from (select * from people left outer join events on people.id = events.person_id)a
+group by 
+    name,
+    et
+order by et;
 ```
 
 We have now seen some of the essential features of SQL and sqlite but the data we manufactured was not very interesting. A more realistic scenario would be one where we have a data file that we want to analyse. We will use the data in the repo located in the `data/WHATDATATOGETHMMMM.csv` file.
