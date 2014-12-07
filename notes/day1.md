@@ -59,6 +59,7 @@ $ vagrant --help
 
 ### Python programming
 
+Official [website](https://www.python.org/).
 Language info, repl etc
 
 #### Data types
@@ -75,6 +76,79 @@ Language info, repl etc
 #### sqlite
 
 ```sql
+-- start an interactive session
 $ sqlite3
-# BOOM!
+-- ask for help
+sqlite> .help
+-- what is currently in the db?
+sqlite> .databases
 ```
+
+Paste all the SQL queries (delimited from each other by `;`) that follow into the sqlite prompt. Let's create a simple table and insert some values into it.
+
+```sql
+create table people(
+    id integer primary key asc,
+    name text,
+    surname text,
+    birthplace text,
+    gender text,
+    height real
+);
+
+insert into people(name, surname, birthplace, gender, height)
+    values('Leon', 'du Toit', 'South Africa', 'male', 1.79);
+insert into people(name, surname, birthplace, gender, height)
+    values('Line', 'Simentad', 'Norway', 'female', 1.72);
+insert into people(name, surname, birthplace, gender, height)
+    values('Lars', 'Vegstein', 'Norway', 'male', 1.8);
+insert into people(name, surname, birthplace, gender, height)
+    values('Monica', 'Larsen', 'Norway', 'female', 1.71);
+
+.schema people
+```
+We now have a `people` table with data about each person. Next we create an `events` table logging events that belong to people.
+
+```sql
+PRAGMA foreign_keys = ON;
+
+create table events2(
+    id integer primary key asc,
+    event_name text,
+    event_time timestamp,
+    person_id integer,
+    foreign key(person_id) references people(id)
+);
+
+insert into events2(event_name, event_time, person_id)
+    values('coffee', '2014-11-06 08:01:10', 1);
+insert into events2(event_name, event_time, person_id)
+    values('climb', '2014-11-07 17:15:01', 1);
+insert into events2(event_name, event_time, person_id)
+    values('yoga', '2014-11-05 18:30:50', 4);
+insert into events2(event_name, event_time, person_id)
+    values('write', '2014-11-07 06:23:10', 2);
+insert into events2(event_name, event_time, person_id)
+    values('coffee', '2014-11-07 06:45:34', 3);
+insert into events2(event_name, event_time, person_id)
+    values('read', '2014-11-07 17:11:11', 3);
+insert into events2(event_name, event_time, person_id)
+    values('read', '2014-11-07 17:10:44', 4);
+insert into events2(event_name, event_time, person_id)
+    values('coffee', '2014-11-07 10:30:03', 2);
+```
+
+Now that we have data in two related tables we can do some interesting SQL queries.
+
+```sql
+select * from people;
+select * from events;
+-- and more intersting ones please
+```
+
+We have now seen some of the essential features of SQL and sqlite but the data we manufactured was not very interesting. A more realistic scenario would be one where we have a data file that we want to analyse. 
+
+```sql
+-- import file into db and do the things
+```
+
