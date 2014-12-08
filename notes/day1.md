@@ -206,11 +206,19 @@ group by
     name,
     et
 order by et;
+-- we can close the db now
+.exit 
 ```
 
 We have now seen some of the essential features of SQL and sqlite but the data we manufactured was not very interesting. A more realistic scenario would be one where we have a data file that we want to analyse. We will use the data in the repo located in the `data/movies.csv` file.
 
+```sh
+# first we create a new db file
+$ sqlite3 moviedb
+```
+
 ```sql
+-- then we load the file into a table
 .separator ','
 create table movies(
     event_date timestamp,
@@ -229,7 +237,22 @@ create table movies(
 );
 .import movies.csv movies
 select * from movies limit 10;
--- do more interesting things
+```
+
+Now that we have the csv file in a table we can use SQL to answer some interesting questions.
+
+```sql
+-- interesting hmmm
+```
+
+Our tour of SQL would not be complete withtout a discussion of [indexing](https://www.sqlite.org/lang_createindex.html). SQL is a declarative query language. Unlike imperative languages, like Python, where the programmer tells the machine which operations to perform a declarative language allows the programmer to say what they would like computed for them. It is the task of the system to figure out how to compute that. In sqlite this is the task of the [query planner](https://www.sqlite.org/queryplanner.html). 
+
+When you are working with large tables (several millions of rows) and when you know your data well it makes sense to create indexes. Indexes are essentially sorted lists of the unique values in your column. When an index exists on a column the query planner will, in some circumstances, use the index to find the values you are looking for. This can be much faster than doing the same thing without and index.
+
+Let's create some useful indexes on the movies table.
+
+```sql
+-- thanks for the index sir
 ```
 
 #### Further reading
