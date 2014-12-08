@@ -1,6 +1,4 @@
 
-We will use the vagrant VM as a code execution environment while all files and git repositories will be created on our own machines and accessed from the VM via shared folders.
-
 ### Manage and share code
 
 We will keep the code we write throughout the workshop in version controlled git repositories on our own machines. You must, therefore, have git installed. Create a workshop folder `$ mkdir ccampus_pydatsci`. Step into that folder `$ cd ccampus_pydatsci`. This is where we will create all our files and directories.
@@ -32,29 +30,48 @@ Next let's look at working with git branches.
 
 ```sh
 $ git branch
-$ git checkout experimental
+$ git checkout -b exp
 $ git branch
 $ git log
-# add commits, cherry pick, add another branch and merge it...
+$ touch onlyinthisbranch.txt && echo "hello there" >> onlyinthisbranch.txt
+$ git add onlyinthisbranch.txt
+$ git commit -m 'another random file'
+$ git log
+$ git checkout master 
+$ git log
 ```
+
+If we want the `master` branch to have the new commit from the `exp` branch we can merge the branches.
+
+```sh
+# you should be on master now
+$ git merge exp master
+$ git log
+```
+
+git encourages working with branches. In practice people split their development and release work into different branches. At my job, for example, develop new things on `master` and when we are sure that it functions properly, merge all the changes to a `staging` branch. After this code runs in a staging environment we merge the `staging` with the `production` branch. For the workshop though we will only use our `master` branch.
 
 #### github
 
-More about github...
+[github](https://github.com/) is a collaboration platform that uses git for source code version control. It is not the same as git. It give you the ability to remotely store your git repository, browse code, comment on code and importantly share this with others on the web. It is very widely used and I highly recommend it.
 
-If you want, you can [add the local repo to github](https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/) but that is up to you. Here is how you can do it:
-
-```sh
-# do it...
-```
+If you want, you can [add the local repo to github](https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/) but that is up to you.
 
 ### Reproducible work
 
+Reproducibility is essential in software development, data science and science in general. If you find a bug in some code and you need help from someone to fix it then they must be able to reproduce the behaviour in order to understand what is wrong. Part of sharing code is sharing the environment in which the code runs. It is normal for programs to have dependencies in order to run and bundling these dependencies and sets of tools in virtual machine images is one way of making reproducibility easier.
+
 #### Vagrant VM
+
+We will use the vagrant VM as a code execution environment while all files and git repositories will be created on our own machines and accessed from the VM via shared folders. Here is a short list of the essential commands we will need:
 
 ```sh
 $ vagrant --help
-# and more
+$ vagrant status
+$ vagrant ssh # log in to the VM
+$ vagrant provision # rerun the install
+$ vagrant reload # rerun the box build and install
+$ vagrant destroy # kill the VM
 ```
 
 ### Python programming
@@ -206,6 +223,7 @@ group by
     name,
     et
 order by et;
+
 -- we can close the db now
 .exit 
 ```
@@ -261,7 +279,7 @@ When you are working with large tables (several millions of rows) and when you k
 Let's create some useful indexes on the movies table.
 
 ```sql
--- the names are arbitrary by using idx is a convention
+-- the names are arbitrary but using idx is a convention
 create index userid_idx on movies(userid);
 create index event_date_idx on movies(event_date);
 ```
