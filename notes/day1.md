@@ -80,11 +80,12 @@ do something simple like read command args mangle it spit it out again
 
 [sqlite](http://www.sqlite.org/), in the words of the official website, is a "software library that implements a self-contained, severless, zero-configuration, transactional SQL database engine". This makes it [different](http://www.sqlite.org/different.html) from other widely used SQL (structured query language) databases such as [PostgreSQL](LINKME) and [MySQL](LINKME). We will use it because of its light footprint, availability and portability. What we learn from working with sqlite will easily transfer to other relational databases.
 
-To get started open the interactive prompt:
+To get started open the interactive prompt in the `pydatsci/data` folder:
 
 ```sql
 -- start an interactive session
-$ sqlite3
+-- store the db in a file for reuse later
+$ sqlite3 pydatsci_people_db
 -- ask for help
 sqlite> .help
 -- what is currently in the db?
@@ -179,7 +180,7 @@ select gender, avg(height) as ave_height from people group by gender;
 So far we have only operated on single tables. We can look at the two tables together using `joins`.
 
 ```sql
--- cross joins
+-- cross join
 select * from people cross join events;
 
 -- inner join
@@ -207,10 +208,28 @@ group by
 order by et;
 ```
 
-We have now seen some of the essential features of SQL and sqlite but the data we manufactured was not very interesting. A more realistic scenario would be one where we have a data file that we want to analyse. We will use the data in the repo located in the `data/WHATDATATOGETHMMMM.csv` file.
+We have now seen some of the essential features of SQL and sqlite but the data we manufactured was not very interesting. A more realistic scenario would be one where we have a data file that we want to analyse. We will use the data in the repo located in the `data/movies.csv` file.
 
 ```sql
--- import file into db and do the things
+.separator ','
+create table movies(
+    event_date timestamp,
+    userid text, 
+    contentid text, 
+    device text, 
+    market text, 
+    totalminuteswatched integer, 
+    runningtime integer, 
+    viewpercentage real, 
+    errorperception real, 
+    sessiontype text, 
+    title text, 
+    seasonnumber integer, 
+    episodenumber integer
+);
+.import movies.csv movies
+select * from movies limit 10;
+-- do more interesting things
 ```
 
 #### Further reading
