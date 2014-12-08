@@ -78,7 +78,7 @@ do something simple like read command args mangle it spit it out again
 
 #### sqlite
 
-[sqlite](http://www.sqlite.org/), in the words of the official website, is a "software library that implements a self-contained, severless, zero-configuration, transactional SQL database engine". This makes it [different](http://www.sqlite.org/different.html) from other widely used SQL (structured query language) databases such as [PostgreSQL](LINKME) and [MySQL](LINKME). We will use it because of its light footprint, availability and portability. What we learn from working with sqlite will easily transfer to other relational databases.
+[sqlite](http://www.sqlite.org/), in the words of the official website, is a "software library that implements a self-contained, severless, zero-configuration, transactional SQL database engine". This makes it [different](http://www.sqlite.org/different.html) from other widely used SQL (structured query language) databases such as [PostgreSQL](http://www.postgresql.org/) and [MySQL](http://www.mysql.com/). We will use it because of its light footprint, availability and portability. What we learn from working with sqlite will easily transfer to other relational databases.
 
 To get started open the interactive prompt in the `pydatsci/data` folder:
 
@@ -242,7 +242,16 @@ select * from movies limit 10;
 Now that we have the csv file in a table we can use SQL to answer some interesting questions.
 
 ```sql
--- interesting hmmm
+-- how many unique users watched something per day?
+-- what was the average amount of things they watched?
+-- and what was the average daily errorperception?
+select
+    date(event_date) as day,
+    count(distinct userid) as num_users,
+    count(contentid) * 1.0 / count(distinct userid) as ave_watched,
+    avg(errorperception) as ave_err_percep
+from movies
+group by day;
 ```
 
 Our tour of SQL would not be complete withtout a discussion of [indexing](https://www.sqlite.org/lang_createindex.html). SQL is a declarative query language. Unlike imperative languages, like Python, where the programmer tells the machine which operations to perform a declarative language allows the programmer to say what they would like computed for them. It is the task of the system to figure out how to compute that. In sqlite this is the task of the [query planner](https://www.sqlite.org/queryplanner.html). 
@@ -252,8 +261,12 @@ When you are working with large tables (several millions of rows) and when you k
 Let's create some useful indexes on the movies table.
 
 ```sql
--- thanks for the index sir
+-- the names are arbitrary by using idx is a convention
+create index userid_idx on movies(userid);
+create index event_date_idx on movies(event_date);
 ```
+
+Since counting unique users and filtering results by date range are two very common operations on a table like this it is likely that there indexes will serve us well.
 
 #### Further reading
 
