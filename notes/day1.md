@@ -199,11 +199,73 @@ reduce(lambda x, y: x + y, range(10))
 
 #### Functions
 
+```python
+# named functions
+def sum_nums(a, b):
+    return a + b
+
+sum_nums(4, 5)
+
+def sum_list(some_list):
+    the_sum = 0
+    for i in some_list:
+        the_sum += i
+    return the_sum
+
+sum_list(range(10))
+
+# default parameter values
+def mult(a, b = 2):
+    return a * b
+
+mult(2, 2)
+mult(2)
+
+# variable length arguments and anonymous functions
+def sum_many_nums(*args):
+    return reduce(lambda x, y: x + y, args)
+
+sum_many_nums(1, 2)
+sum_many_nums(1, 2, 3, 4, 5, 6)
+
+# first class functions: functions as arguments to functions
+def clean_list(dirty_list, func):
+    clean_list = []
+    for elem in dirty_list:
+        if func(elem):
+            clean_list.append(elem)
+    return clean_list
+
+def is_even(num):
+    if num % 2 == 0:
+        return True
+    else:
+        return False
+
+clean_list(range(10), is_even)
+
+# functions in functions
+def main_func(a, b):
+    c = a * b
+    def do_things(c):
+        d = a + b
+        return d * c
+    return do_things(c)
+
+main_func(4, 5)
+```
+
 #### Packages
+
+```python
+# wow, such package
+```
 
 #### An example program
 
-do something simple like read command args mangle it spit it out again
+```python
+# do something simple like read command args mangle it spit it out again
+```
 
 ### Relational databases
 
