@@ -76,7 +76,7 @@ $ vagrant destroy # kill the VM
 
 ### Python programming
 
-[Python](https://www.python.org/) is a dynamically typed, interpreted language. Dynamically typed languages verify the correctness of data types when the program is run. Interpreted languages are executed by interpreters - programs that read source code and translate it into python bytecode and executed by a virtual machine. The CPU on your machine executes the virtual machine's code. For a more in depth dicussion of this process have a look at [this](http://stackoverflow.com/questions/3299648/python-compilation-interpretation-process) article. 
+[Python](https://www.python.org/) is a dynamically typed, interpreted language. Dynamically typed languages verify the correctness of data types when the program is run. Interpreted languages are executed by interpreters - in Python this is a program that reads the source code and translates it into python bytecode, which is then executed by a virtual machine. The CPU on your machine executes the virtual machine's code. For a more in depth dicussion of this process have a look at [this](http://stackoverflow.com/questions/3299648/python-compilation-interpretation-process) article. 
 
 We will use Python for the workshop since it has grown into a rich ecosystem for data intensive work. To start the python interpreter interactivey simply type `$ ipython`. We will use `ipython` which is an enhanced version of the normal python interactive interpreter.
 
@@ -128,6 +128,38 @@ c.upper().lower()
 ```
 
 #### Data structures
+
+```python
+# list
+alist = [1, 2, 30, 10]
+alist[0]
+alist[1:3]
+alist[1:]
+alist[:2]
+1 in alist
+alist.append(8)
+alist.pop()
+alist.reverse()
+alist.sort()
+
+# dictionary
+adict = {'key1': 4, 'key2': [1, 2, 3]}
+adict['key1']
+adict['key2']
+adict.has_key('key1')
+adict.keys()
+adict.pop('key1')
+adict['newkey'] = 8
+adict.values()
+
+
+# tuple
+atuple = (2, 6, 'leon')
+2 in atuple
+atuple.count(2)
+atuple.index('leon')
+
+```
 
 #### Control flow
 
