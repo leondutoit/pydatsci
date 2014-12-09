@@ -158,10 +158,44 @@ atuple = (2, 6, 'leon')
 2 in atuple
 atuple.count(2)
 atuple.index('leon')
-
 ```
 
 #### Control flow
+
+```python
+range(5)
+
+# for 
+for i in range(10):
+    print i * 2
+
+for i in range(10):
+    if i % 2 == 0:
+        print i
+    else:
+        print "Uneven number found"
+
+the_sum = 0
+for i in range(10):
+    the_sum += i
+    if i == 9:
+        print the_sum
+
+for i in alist:
+    print i
+
+# while (prefer a for loop when you can)
+condition = True
+while condition:
+    print "The condition is " + str(condition)
+    condition = False
+
+# map
+map(lambda x: x * 2, range(10))
+
+# reduce
+reduce(lambda x, y: x + y, range(10))
+```
 
 #### Functions
 
