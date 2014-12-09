@@ -76,12 +76,60 @@ $ vagrant destroy # kill the VM
 
 ### Python programming
 
-Official [website](https://www.python.org/).
-Language info, repl etc
+[Python](https://www.python.org/) is a dynamically typed, interpreted language. Dynamically typed languages verify the correctness of data types when the program is run. Interpreted languages are executed by interpreters - programs that read source code and translate it into python bytecode and executed by a virtual machine. The CPU on your machine executes the virtual machine's code. For a more in depth dicussion of this process have a look at [this](http://stackoverflow.com/questions/3299648/python-compilation-interpretation-process) article. 
 
-#### Data types
+We will use Python for the workshop since it has grown into a rich ecosystem for data intensive work. To start the python interpreter interactivey simply type `$ ipython`. We will use `ipython` which is an enhanced version of the normal python interactive interpreter.
+
+#### Data types and basic operators
+
+```python
+# basic types
+type(5)
+type(5.5)
+type('five')
+type(False)
+type(True)
+type(None)
+
+# assign values to variables
+a = 5
+b = 5.5
+c = 'five'
+d = True
+e = False
+f = None
+
+# basic math
+a + a
+a + b # here we see the dynamic typing in action
+(a + b) / a * 10
+a % 2
+5 / 2 # watch out for integer division
+
+# logical operators
+d == True
+e != True
+(d and e) == True
+(d or e) == True
+f is None
+
+# strings
+'f' in c
+len(c)
+c.capitalize()
+c.endswith('b')
+c.find('i')
+c.replace('f', 'l')
+c.split('i')
+c.startswith('f')
+c.upper()
+c.upper().lower()
+
+```
 
 #### Data structures
+
+#### Control flow
 
 #### Functions
 
@@ -282,6 +330,7 @@ Let's create some useful indexes on the movies table.
 -- the names are arbitrary but using idx is a convention
 create index userid_idx on movies(userid);
 create index event_date_idx on movies(event_date);
+.schema movies
 ```
 
 Since counting unique users and filtering results by date range are two very common operations on a table like this it is likely that there indexes will serve us well.
