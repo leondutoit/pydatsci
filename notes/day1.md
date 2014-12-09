@@ -257,14 +257,46 @@ main_func(4, 5)
 
 #### Packages
 
+Much of the functionality of the Python programming language is included in the standard library - the set of packages that ship with the language but are not always loaded in the current namespace or session. Most of the high-level data analysis and visualisation functionality is contributed to the community in the form of installable packages that can be loaded and used at will. Here's how to use a package:
+
 ```python
-# wow, such package
+# we simply use the import statement
+import math
+map(math.sqrt, range(10))
+```
+
+We can install a package from the python online package repository using the `pip` program.
+
+```sh
+# a command line argument parsing package
+$ sudo pip install click
 ```
 
 #### An example program
 
 ```python
-# do something simple like read command args mangle it spit it out again
+from sys import argv
+
+def make_annoying_sentence(words):
+    """Takes a list of words, turns them into 
+    annoying all caps and inserts spaces between words"""
+    sentence = []
+    for word in words:
+        sentence.append(word.upper())
+        sentence.append(' ')
+    return sentence
+
+def exclaim(sentence):
+    """Adds an exclamation mark to the sentence list"""
+    sentence.append('!')
+    return ''.join(sentence)
+
+def main():
+    inputs = argv[1:]
+    print exclaim(make_annoying_sentence(inputs))
+
+if __name__ == '__main__':
+    main()
 ```
 
 ### Relational databases
@@ -465,5 +497,7 @@ Since counting unique users and filtering results by date range are two very com
 
 #### Further reading
 
+* exception handling
+* unit testing
 
 
