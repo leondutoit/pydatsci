@@ -494,10 +494,3 @@ create index event_date_idx on movies(event_date);
 ```
 
 Since counting unique users and filtering results by date range are two very common operations on a table like this it is likely that there indexes will serve us well.
-
-#### Further reading
-
-* exception handling
-* unit testing
-
-
