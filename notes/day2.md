@@ -57,23 +57,62 @@ def test_exclaim():
     """Test that an exclamation mark is added to a sentence"""
     with_exclamation = exclaim(['BLA'])
     assert('!' in with_exclamation)
-
 ```
 
 We can run this as follows: `cd pydatsci/examples && nosetests`. These are overly simplistic tests and not complete enough, but they illustrate the point well enough.
 
 ### Data manipulation with pandas
 
-Series
-DataFrame
-file reading/writing
-sql interaction
-datatypes
-new cols
-Groupby
-aggregation 
-merge
-pivot
+We will do the work in the `data` directory: `cd pydatsci/data`.
+
+```python
+# pandas import convention
+import pandas as pd
+
+# Series
+s = pd.Series(range(10))
+s
+s.dtype
+s.index
+s.values
+s.shape
+
+# DataFrame ~ a Series of Series
+df = pd.DataFrame({
+    'a': ['x' if i % 2 == 0 else 'y' for i in range(10)], 
+    'b': [i*i for i in range(10)]})
+df
+df.dtypes
+df.index
+df.values
+df.shape
+
+# slicing and basic manipulation
+df['a']
+df['a'][0]
+type(df['a'][0])
+df['a'][df['a'] == 'x']
+df['b'][df['a'] == 'x']
+df['c'] = df['b']*2
+df
+```
+
+```python
+# file reading/writing
+movies = pd.read_csv('movies.csv')
+```
+
+```python
+#sql interaction (TODO create the db)
+```
+
+```python
+#methods
+#Groupby
+#aggregation 
+#merge
+#pivot
+```
 
 ### A Flask web app
 
