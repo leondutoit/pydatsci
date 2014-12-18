@@ -86,6 +86,7 @@ df.dtypes
 df.index
 df.values
 df.shape
+df.columns
 
 # slicing and basic manipulation
 df['a']
@@ -98,12 +99,22 @@ df
 ```
 
 ```python
-# file reading/writing
-movies = pd.read_csv('movies.csv')
+# file IO
+movies = pd.read_csv('movies.csv', header = None)
+movies.head()
+
+# remove any row with NaN value
+cleaned_movies = movies.dropna()
+cleaned_movies.to_csv('cleaned_movies.csv', quote = False, index = False, header = False)
 ```
 
 ```python
 #sql interaction (TODO create the db)
+import sqlite3
+conn = sqlite3.connect('moviedb')
+movie_db = pd.read_sql('select * from movies limit 10', conn)
+movie_db.head()
+conn.close()
 ```
 
 ```python
