@@ -1,2 +1,4 @@
 *.pyc
 moviedb
+.vagrant
+cleaned_movies.csv

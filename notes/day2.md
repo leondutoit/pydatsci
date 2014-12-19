@@ -66,7 +66,6 @@ We can run this as follows: `cd pydatsci/examples && nosetests`. These are overl
 We will do the work in the `data` directory: `cd pydatsci/data`.
 
 ```python
-# pandas import convention
 import pandas as pd
 
 # Series
@@ -98,8 +97,9 @@ df['c'] = df['b']*2
 df
 ```
 
+Read and writing files with pandas is very easy and efficient compared to using plain Python.
+
 ```python
-# file IO
 movies = pd.read_csv('movies.csv', header = None)
 movies.head()
 
@@ -108,14 +108,17 @@ cleaned_movies = movies.dropna()
 cleaned_movies.to_csv('cleaned_movies.csv', quote = False, index = False, header = False)
 ```
 
+We can also interact directly with the sqlite movies database that we made previously.
+
 ```python
-#sql interaction (TODO create the db)
 import sqlite3
 conn = sqlite3.connect('moviedb')
 movie_db = pd.read_sql('select * from movies limit 10', conn)
 movie_db.head()
 conn.close()
 ```
+
+DataFrames have a host of methods that make common tabular data manipulation functions easy to do.
 
 ```python
 #methods
@@ -127,4 +130,26 @@ conn.close()
 
 ### A Flask web app
 
-serve a html file
+A Hello World Flask app:
+
+```python
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World"
+
+if __name__ == '__main__':
+    app.run(port = 9009)
+
+```
+
+
+
+
+
+
+
+
+
