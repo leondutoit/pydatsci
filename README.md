@@ -37,7 +37,7 @@ Before the workshop I recommend you do the following two things: get the vagrant
 6. Navigate to the repository folder locally: `$ cd pydatsci`
 7. Run: `$ vagrant up` - this will take a while...
 
-You can now log in to the VM by doing `$ vagrant ssh`. Once logged in go to the `pydatsci` folder: `$ cd /vagrant/pydatsci`. Once there run the test script `./test.sh`. If this runs without reporting an error you are all set to go.
+You can now log in to the VM by doing `$ vagrant ssh`. Once logged in go to the `pydatsci` folder: `$ cd /vagrant`. Once there run the test script `./test.sh`. If this runs without reporting an error you are all set to go.
 
 
 #### Try git
