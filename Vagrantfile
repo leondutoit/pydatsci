@@ -12,7 +12,7 @@ $script = <<BOOTSTRAP
 sudo apt-get update
 sudo apt-get -y install git gcc emacs
 sudo apt-get update
-sudo apt-get install -y python-pip python-dev libyaml-dev g++
+sudo apt-get install -y python-pip python-dev libyaml-dev g++ sqlite3
 sudo apt-get install -y automake python-setuptools python-software-properties
 sudo pip install numpy pandas flask ipython
 BOOTSTRAP
