@@ -118,19 +118,60 @@ movie_db.head()
 conn.close()
 ```
 
-DataFrames have a host of methods that make common tabular data manipulation functions easy to do.
+DataFrames have a host of methods that makes common tabular data manipulation easy to do.
 
 ```python
-#methods
-#Groupby
-#aggregation 
-#merge
-#pivot
+# DF methods - single column operations
+df['b'].cumsum()
+df['b'].mean()
+df['b'].median()
+df['b'].min()
+df['b'].max()
+
+# groupby and aggregation - multiple column operations
+gdf = df.groupby('a')
+gdf
+gdf.groups
+gdf.sum()
+gdf.mean()
+gdf.median()
+gdf.count()
+
+def f(a):
+    """return the cumulative sum only if number are even"""
+    return reduce(lambda x, y: (x + y) if (x % 2 == 0 and y % 2 == 0) else 0, a)
+
+gdf.aggregate(f)
+
+# merge - multiple DataFrames
+df2 = pd.DataFrame({
+    'a': ['y' if i % 2 == 0 else 'x' for i in range(10)], 
+    'c': [i+i for i in range(10)]})
+
+pd.merge(df, df2, on = 'a')
+
+# pivot tables - changing shape
+mdf = pd.DataFrame({
+    'sessiontype': ['MOVIE', 'SERIES', 'SERIES', 'MOVIE'],
+    'title': ['x-men', 'game of thrones', 'game of thrones', 'iron man'],
+    'totalminuteswatched': [10, 4, 40, 90]
+    })
+
+mdf.pivot_table(values = 'totalminuteswatched', index = ['sessiontype', 'title'], aggfunc = sum)
 ```
+
+Now we can use pandas to create a set of analysis tools for the movie database.
+
+```python
+# create the things
+
+```
+
+We will use these analysis tools to display data in our interactive dashboard.
 
 ### A Flask web app
 
-A Hello World Flask app:
+A Hello World Flask app (also visible in `examples/flask_hello_world.py`):
 
 ```python
 from flask import Flask
@@ -142,12 +183,12 @@ def hello():
 
 if __name__ == '__main__':
     app.run(port = 9009)
-
 ```
 
+We can run this as follows: `$ python flask_hello_world.py` and browse to `localhost:9009` in our browser.
 
 
-
+...More flask... 
 
 
 
