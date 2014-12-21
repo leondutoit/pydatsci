@@ -163,12 +163,41 @@ mdf.pivot_table(values = 'totalminuteswatched', index = ['sessiontype', 'title']
 Now we can use pandas to create a set of analysis tools for the movie database. We will answer the following questions:
 * How many unique users per period (day, week, month)
 * Total minutes watched per period
-* Rank content by popularity
+* Rank content by popularity to display top 10
+
+We need to organise our code into a project that will become the interactive dashboard. Create a directory structure as follows:
+
+```
+dashboard/
+    |
+    - moviedb
+    - app.py
+    - analysis_tools.py
+    - static/
+        |
+        css/
+        |
+        js/
+    - templates/
+        |
+        - index.html
+```
+
+Suppose you're in the vagrant VM in your home folder, then you can create the structure like this:
+
+```sh
+$ mkdir -p dashboard/static/css dashboard/static/js dashboard/templates
+$ touch dashboard/app.py dashboard/analysis_tools.py dashboard/templates/index.html
+$ cp /vagrant/data/moviedb dashboard
+```
+
+We will create the code in there as we go along. Now  use the `analysis_tools.py` file to create these functions as we go along.
 
 ```python
-# we continue working with the movie_db data
-# that we read from the sqlite database
 import sqlite3
+import pandas as pd
+import datetime as dt
+
 conn = sqlite3.connect('moviedb')
 movie_db = pd.read_sql('select * from movies', conn)
 movie_db.head()
@@ -185,15 +214,13 @@ def get_data_from_db(conn):
     data.index = pd.DatetimeIndex(movie_db.event_date)
     return data
 
-import datetime as dt
-
 def date_resolution(resolution):
     def md(y, m, d):
         return dt.datetime(y, m, d)
     funcs = {
         'daily': lambda x: md(x.year, x.month, x.day).strftime('%Y-%m-%d'),
         'weekly': lambda x: (md(x.year, x.month, x.day) - dt.timedelta(days = x.weekday())).strftime('%Y-%m-%d'),
-        'monthly': lambda x: md(x.year, x.month, x.month).strftime('%Y-%m-%d')
+        'monthly': lambda x: md(x.year, x.month, 1).strftime('%Y-%m-%d')
     }
     return funcs[resolution]
 
@@ -210,24 +237,43 @@ def unique_users(df, resolution):
 def minutes_watched(df, resolution):
     return metric_by_date(df, resolution, 'totalminuteswatched', sum)
 
-def rank_titles(df):
-    # todo
-
 # question no. 1
 unique_users(movie_db, 'monthly')
 
 # question no. 2
 minutes_watched(movie_db, 'daily')
 
-# question no. 3
-# todo
+# for unique users and minutes watched there are days with no data
+# one those days the value of the metrics should be zero
+# to take this into account we can reindex and fill missing values
+def add_zeros_for_missing_dates(df, resolution):
+    freq_map = {
+        'daily': 'D',
+        'weekly': 'W-MON',
+        'monthly': 'MS'
+    }
+    freq = freq_map[resolution]
+    start = df.index[0]
+    end =  df.index[len(df.index) - 1]
+    idx = pd.date_range(start, end, freq = freq)
+    format_date = lambda x: x.strftime('%Y-%m-%d')
+    df = df.reindex(map(format_date, idx.to_pydatetime()), fill_value = 0)
+    return df
 
-# handling conditions
-# filtering (where clauses)
-dff.groupby('B').filter(lambda x: len(x['C']) > 2)
+# then if we need to we can call it like this
+weekly_users = unique_users(movie_db, 'weekly')
+add_zeros_for_missing_dates(weekly_users, 'weekly')
+
+def rank_titles(df, num):
+    toplist = movie_db.groupby('title')['title'].count()
+    toplist.sort(ascending = False)
+    return toplist[toplist.index != ''][:num]
+
+# question no. 3
+rank_title(movie_db)
 ```
 
-We will use these analysis tools later to display data in our interactive dashboard.
+As is clear from the short analysis above, working with dates is hard. We will use these analysis tools later to display data in our interactive dashboard. We can clean up the file by removing the function calls or just commenting them out - these functions will be called from the web app eventually.
 
 ### A Flask web app
 
@@ -250,7 +296,7 @@ We can run this as follows: `$ python flask_hello_world.py` and browse to `local
 
 #### Talking to the db
 
-Eventually we want to use our analysis tools to get data from the db, do data manipulation and visualise the results from the flask app. To do this we need a way to connect to the database from the web app.
+Eventually we want to use our analysis tools to get data from the db, do data manipulation and visualise the results from the flask app. To do this we need a way to connect to the database from the web app. Put this into the `app.py` file.
 
 ```python
 import sqlite3
@@ -286,7 +332,7 @@ if __name__ == '__main__':
     app.run(port = 9009, debug = True)
 ```
 
-Write this code into a file in the `data` directory and run it. There are a few new things to notice here: the `get_db` and the `close_connection` functions are new, and there are a couple of details in the `hello` function.
+There are a few new things to notice here: the `get_db` and the `close_connection` functions are new, and there are a couple of details in the `hello` function.
 
 The `get_db` function creates a database connection and stores it on a special flask object that is available during [HTTP](http://code.tutsplus.com/tutorials/http-the-protocol-every-web-developer-must-know-part-1--net-31177) (Hypertext Tranfer Protocol) requests. The functions annotated with the `@route` decorator are called from HTTP requests. This means that the `g` object is available to the `hello` function. `get_db` works in tandem with `close_connection` which is annotated with `@app.teardown_appcontext`: this is called when a request is done. So in the `hello` function, after all the work related to the db is done, the `close_connection` function is called to close the connection to the database.
 
