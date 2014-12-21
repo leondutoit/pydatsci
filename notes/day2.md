@@ -160,7 +160,10 @@ mdf
 mdf.pivot_table(values = 'totalminuteswatched', index = ['sessiontype', 'title'], aggfunc = sum)
 ```
 
-Now we can use pandas to create a set of analysis tools for the movie database.
+Now we can use pandas to create a set of analysis tools for the movie database. We will answer the following questions:
+* How many unique users per period (day, week, month)
+* Total minutes watched per period
+* Rank content by popularity
 
 ```python
 # we continue working with the movie_db data
@@ -177,34 +180,51 @@ movie_db.index = pd.DatetimeIndex(movie_db.event_date)
 # fancy slicing capabilities
 movie_db['2013-03-15']
 
+def get_data_from_db(conn):
+    data = pd.read_sql('select * from movies', conn)
+    data.index = pd.DatetimeIndex(movie_db.event_date)
+    return data
 
-# data cleaning
-# fill values
-# set datatype
+import datetime as dt
 
 def date_resolution(resolution):
+    def md(y, m, d):
+        return dt.datetime(y, m, d)
     funcs = {
-        'daily': lambda x: datetime.datetime(
-            x.year, x.month, x.day).strftime('%Y-%m-%d'),
-        'weekly': lambda x: datetime.datetime(
-            x.year, x.month, x.week).strftime('%Y-%m-%d'),
-        'monthly': lambda x: datetime.datetime(
-            x.year, x.month, x.month).strftime('%Y-%m-%d')
+        'daily': lambda x: md(x.year, x.month, x.day).strftime('%Y-%m-%d'),
+        'weekly': lambda x: (md(x.year, x.month, x.day) - dt.timedelta(days = x.weekday())).strftime('%Y-%m-%d'),
+        'monthly': lambda x: md(x.year, x.month, x.month).strftime('%Y-%m-%d')
     }
     return funcs[resolution]
 
-def date_aggregate_with_cols():
-    # TODO
+movie_db.groupby(date_resolution('daily'))['totalminuteswatched'].sum()
 
+def metric_by_date(df, resolution, column, agg_func):
+    grouped = df.groupby(date_resolution(resolution))[column]
+    ans = grouped.apply(agg_func)
+    return ans
 
+def unique_users(df, resolution):
+    return metric_by_date(df, resolution, 'userid', lambda x: len(x.value_counts()))
 
-movie_db.groupby(
-    ['event_date', 'sessiontype'], 
-    as_index = False)['totalminuteswatched'].sum()
+def minutes_watched(df, resolution):
+    return metric_by_date(df, resolution, 'totalminuteswatched', sum)
 
+def rank_titles(df):
+    # todo
+
+# question no. 1
+unique_users(movie_db, 'monthly')
+
+# question no. 2
+minutes_watched(movie_db, 'daily')
+
+# question no. 3
+# todo
+
+# handling conditions
 # filtering (where clauses)
 dff.groupby('B').filter(lambda x: len(x['C']) > 2)
-
 ```
 
 We will use these analysis tools later to display data in our interactive dashboard.
