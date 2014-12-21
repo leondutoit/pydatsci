@@ -1,8 +1,6 @@
 import sqlite3
 import pandas as pd
-# we add a new imports from flask
 from flask import Flask, g, Response, render_template, request
-# and we import the analysis tools
 from analysis_tools import (get_data_from_db, date_resolution,
     metric_by_date, unique_users, minutes_watched,
     add_zeros_for_missing_dates, rank_titles)
@@ -26,8 +24,18 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-def json_resp(df):
-    return Response(df.to_json(), mimetype = 'application/json')
+def json_resp(df, format = "ts"):
+    if format == "ts":
+        df = pd.DataFrame({
+            'date': df.index,
+            'values': df.values})
+    else:
+        df = pd.DataFrame({
+            'title': df.index,
+            'values': df.values})
+    return Response(
+        df.to_json(orient = 'records'),
+        mimetype = 'application/json')
 
 @app.route("/")
 def hello():
@@ -57,7 +65,7 @@ def get_toplist():
     db = get_db()
     df = get_data_from_db(db)
     top = rank_titles(df, num)
-    return json_resp(top)
+    return json_resp(top, format = "rank")
 
 if __name__ == '__main__':
     app.run(port = 9009, debug = True)
