@@ -211,7 +211,7 @@ movie_db['2013-03-15']
 
 def get_data_from_db(conn):
     data = pd.read_sql('select * from movies', conn)
-    data.index = pd.DatetimeIndex(movie_db.event_date)
+    data.index = pd.DatetimeIndex(data.event_date)
     return data
 
 def date_resolution(resolution):
@@ -265,7 +265,7 @@ weekly_users = unique_users(movie_db, 'weekly')
 add_zeros_for_missing_dates(weekly_users, 'weekly')
 
 def rank_titles(df, num):
-    toplist = movie_db.groupby('title')['title'].count()
+    toplist = df.groupby('title')['title'].count()
     toplist.sort(ascending = False)
     return toplist[toplist.index != ''][:num]
 
