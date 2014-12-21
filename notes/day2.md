@@ -171,7 +171,39 @@ movie_db = pd.read_sql('select * from movies', conn)
 movie_db.head()
 conn.close()
 
+# reindex for groupby purposes
+movie_db.index = pd.DatetimeIndex(movie_db.event_date)
 
+# fancy slicing capabilities
+movie_db['2013-03-15']
+
+
+# data cleaning
+# fill values
+# set datatype
+
+def date_resolution(resolution):
+    funcs = {
+        'daily': lambda x: datetime.datetime(
+            x.year, x.month, x.day).strftime('%Y-%m-%d'),
+        'weekly': lambda x: datetime.datetime(
+            x.year, x.month, x.week).strftime('%Y-%m-%d'),
+        'monthly': lambda x: datetime.datetime(
+            x.year, x.month, x.month).strftime('%Y-%m-%d')
+    }
+    return funcs[resolution]
+
+def date_aggregate_with_cols():
+    # TODO
+
+
+
+movie_db.groupby(
+    ['event_date', 'sessiontype'], 
+    as_index = False)['totalminuteswatched'].sum()
+
+# filtering (where clauses)
+dff.groupby('B').filter(lambda x: len(x['C']) > 2)
 
 ```
 
@@ -236,7 +268,7 @@ if __name__ == '__main__':
 
 Write this code into a file in the `data` directory and run it. There are a few new things to notice here: the `get_db` and the `close_connection` functions are new, and there are a couple of details in the `hello` function.
 
-The `get_db` function creates a database connection and stores it on a special flask object that is available during [HTTP](http://code.tutsplus.com/tutorials/http-the-protocol-every-web-developer-must-know-part-1--net-31177) (Hypertest Tranfer Protocol) requests. The functions annotated with the `@route` decorator are called from HTTP requests. This means that the `g` object is available to the `hello` function. `get_db` works in tandem with `close_connection` which is annotated with `@app.teardown_appcontext`: this is called when a request is done. So in the `hello` function, after all the work related to the db is done, the `close_connection` functions is called to close the connection to the database.
+The `get_db` function creates a database connection and stores it on a special flask object that is available during [HTTP](http://code.tutsplus.com/tutorials/http-the-protocol-every-web-developer-must-know-part-1--net-31177) (Hypertext Tranfer Protocol) requests. The functions annotated with the `@route` decorator are called from HTTP requests. This means that the `g` object is available to the `hello` function. `get_db` works in tandem with `close_connection` which is annotated with `@app.teardown_appcontext`: this is called when a request is done. So in the `hello` function, after all the work related to the db is done, the `close_connection` function is called to close the connection to the database.
 
 Inside the `hello` function we use the db connection to read a SQL result set into a pandas DataFrame. The function returns a flask `Response` object. This object maps to a HTTP response which the browser will receive in our case. The HTTP resonse has data (the SQL result set) and it has another attribute called the `mimetype`. The `mimetype` aka [Internet Media Type](http://en.wikipedia.org/wiki/Internet_media_type) is just an identifier which will let the browser know what kind of data it is receiving. We do two things here: we use the pandas `to_json` function to change the data from a DataFrame into JSON (JavaScript Object Notation) and we set the mimetype to `application/json` to let the browser know what kind of data we are returning.
 
