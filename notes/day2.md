@@ -270,10 +270,10 @@ def rank_titles(df, num):
     return toplist[toplist.index != ''][:num]
 
 # question no. 3
-rank_title(movie_db)
+rank_title(movie_db, 10)
 ```
 
-As is clear from the short analysis above, working with dates is hard. We will use these analysis tools later to display data in our interactive dashboard. We can clean up the file by removing the function calls or just commenting them out - these functions will be called from the web app eventually.
+As is clear from the short analysis above, working with dates is hard. We will use these analysis tools later to display data in our interactive dashboard. We can clean up the file by removing all the function calls or just commenting them out so that we're left only with the function definitions - these will be called from the web app eventually.
 
 ### A Flask web app
 
