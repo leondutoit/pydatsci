@@ -193,10 +193,10 @@ if __name__ == '__main__':
     app.run(port = 9009, debug = True)
 ```
 
-We can run this as follows: `$ python flask_hello_world.py` and browse to `localhost:9009` in our browser.
+We can run this as follows: `$ python flask_hello_world.py` and browse to `localhost:9009` in our browser. The `@app.route("/")` is an annotation - a flask specific construct. In general an annotation modifies the behaviour of the function it annotates. Annotations are built-in language constructs. In this case it simply means that the `hello` function should be called when the browser makes a HTTP request to the app at the root URL `/`. In subsequent web app development we will make more use of custom URLs to control which functions are executed.
 
 
-#### talking to the db
+#### Talking to the db
 
 Eventually we want to use our analysis tools to get data from the db, do data manipulation and visualise the results from the flask app. To do this we need a way to connect to the database from the web app.
 
@@ -234,6 +234,10 @@ if __name__ == '__main__':
     app.run(port = 9009, debug = True)
 ```
 
-Write this code into a file in the `data` directory and run it. There are a few new things to notice here... EXPLAIN IT.
+Write this code into a file in the `data` directory and run it. There are a few new things to notice here: the `get_db` and the `close_connection` functions are new, and there are a couple of details in the `hello` function.
 
-The next step is to include the analysis tools into the web app and to build visualisations on top of those.
+The `get_db` function creates a database connection and stores it on a special flask object that is available during [HTTP](http://code.tutsplus.com/tutorials/http-the-protocol-every-web-developer-must-know-part-1--net-31177) (Hypertest Tranfer Protocol) requests. The functions annotated with the `@route` decorator are called from HTTP requests. This means that the `g` object is available to the `hello` function. `get_db` works in tandem with `close_connection` which is annotated with `@app.teardown_appcontext`: this is called when a request is done. So in the `hello` function, after all the work related to the db is done, the `close_connection` functions is called to close the connection to the database.
+
+Inside the `hello` function we use the db connection to read a SQL result set into a pandas DataFrame. The function returns a flask `Response` object. This object maps to a HTTP response which the browser will receive in our case. The HTTP resonse has data (the SQL result set) and it has another attribute called the `mimetype`. The `mimetype` aka [Internet Media Type](http://en.wikipedia.org/wiki/Internet_media_type) is just an identifier which will let the browser know what kind of data it is receiving. We do two things here: we use the pandas `to_json` function to change the data from a DataFrame into JSON (JavaScript Object Notation) and we set the mimetype to `application/json` to let the browser know what kind of data we are returning.
+
+The next step is to include the analysis tools into the web app and to build visualisations on top of those. We will do this in the next session.
