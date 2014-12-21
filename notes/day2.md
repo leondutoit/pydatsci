@@ -63,7 +63,7 @@ We can run this as follows: `cd pydatsci/examples && nosetests`. These are overl
 
 ### Data manipulation with pandas
 
-We will do the work in the `data` directory: `cd pydatsci/data`.
+We will do the work in the `data` directory: `cd pydatsci/data`. You should have the `moviedb` file from day1 in that directory.
 
 ```python
 import pandas as pd
@@ -138,7 +138,7 @@ gdf.median()
 gdf.count()
 
 def f(a):
-    """return the cumulative sum only if number are even"""
+    """return the cumulative sum only if numbers are even"""
     return reduce(lambda x, y: (x + y) if (x % 2 == 0 and y % 2 == 0) else 0, a)
 
 gdf.aggregate(f)
@@ -154,20 +154,28 @@ pd.merge(df, df2, on = 'a')
 mdf = pd.DataFrame({
     'sessiontype': ['MOVIE', 'SERIES', 'SERIES', 'MOVIE'],
     'title': ['x-men', 'game of thrones', 'game of thrones', 'iron man'],
-    'totalminuteswatched': [10, 4, 40, 90]
-    })
+    'totalminuteswatched': [10, 4, 40, 90]})
 
+mdf
 mdf.pivot_table(values = 'totalminuteswatched', index = ['sessiontype', 'title'], aggfunc = sum)
 ```
 
 Now we can use pandas to create a set of analysis tools for the movie database.
 
 ```python
-# create the things
+# we continue working with the movie_db data
+# that we read from the sqlite database
+import sqlite3
+conn = sqlite3.connect('moviedb')
+movie_db = pd.read_sql('select * from movies', conn)
+movie_db.head()
+conn.close()
+
+
 
 ```
 
-We will use these analysis tools to display data in our interactive dashboard.
+We will use these analysis tools later to display data in our interactive dashboard.
 
 ### A Flask web app
 
@@ -182,15 +190,50 @@ def hello():
     return "Hello World"
 
 if __name__ == '__main__':
-    app.run(port = 9009)
+    app.run(port = 9009, debug = True)
 ```
 
 We can run this as follows: `$ python flask_hello_world.py` and browse to `localhost:9009` in our browser.
 
 
-...More flask... 
+#### talking to the db
 
+Eventually we want to use our analysis tools to get data from the db, do data manipulation and visualise the results from the flask app. To do this we need a way to connect to the database from the web app.
 
+```python
+import sqlite3
+import pandas as pd
+from flask import Flask, g, Response
+app = Flask(__name__)
 
+DATABASE = 'moviedb'
 
+def connect_to_database():
+    conn = sqlite3.connect(DATABASE)
+    return conn
 
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = connect_to_database()
+    return db
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+@app.route("/")
+def hello():
+    db = get_db()
+    res = pd.read_sql('select * from movies limit 10', db)
+    return Response(res.to_json(), mimetype = 'application/json')
+
+if __name__ == '__main__':
+    app.run(port = 9009, debug = True)
+```
+
+Write this code into a file in the `data` directory and run it. There are a few new things to notice here... EXPLAIN IT.
+
+The next step is to include the analysis tools into the web app and to build visualisations on top of those.
