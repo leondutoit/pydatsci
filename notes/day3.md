@@ -51,23 +51,17 @@ def json_resp(df, format = "ts"):
 def hello():
     return render_template("index.html")
 
-@app.route("/data/unique_users/")
-def get_users():
+@app.route("/data/<ts_metric>/")
+def get_users(ts_metric):
     res = request.args.get("resolution")
     db = get_db()
     df = get_data_from_db(db)
-    users = unique_users(df, res)
-    users = add_zeros_for_missing_dates(users, res)
-    return json_resp(users)
-
-@app.route("/data/minutes_watched/")
-def get_minutes_watched():
-    res = request.args.get("resolution")
-    db = get_db()
-    df = get_data_from_db(db)
-    mins = minutes_watched(df, res)
-    mins = add_zeros_for_missing_dates(mins, res)
-    return json_resp(mins)
+    if ts_metric == "unique_users":
+        df = unique_users(df, res)
+    elif ts_metric == "minutes_watched":
+        df = minutes_watched(df, res)
+    df = add_zeros_for_missing_dates(df, res)
+    return json_resp(df)
 
 @app.route("/data/toplist/")
 def get_toplist():
