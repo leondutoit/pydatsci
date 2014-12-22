@@ -1,7 +1,7 @@
 
 ### Flask, the db and analysis
 
-To use our analysis tools from the web to deliver data to the browser (for visualisation) we extend the `dashboard/app.py` file. We are going to do two main things: replace the hello function with a new body. Add more URLs that are mapped to the data analysis library.
+To use our analysis tools from the web to deliver data to the browser (for visualisation) we extend the `dashboard/app.py` file.
 
 ```python
 import sqlite3
@@ -52,7 +52,7 @@ def hello():
     return render_template("index.html")
 
 @app.route("/data/<ts_metric>/")
-def get_users(ts_metric):
+def get_metric(ts_metric):
     res = request.args.get("resolution")
     db = get_db()
     df = get_data_from_db(db)
@@ -75,9 +75,21 @@ if __name__ == '__main__':
     app.run(port = 9009, debug = True)
 ```
 
-And explain...
+`json_resp` takes a dataframe and a format specification and constructs an appropriate JSON HTTP response. `hello` now renders an html page. `get_metric` takes a string from the URL combined with a URL parameter to return either unique users or total minutes watched per period. Lastly `get_toplist` uses a URL parameter to display the top `n` popular titles. We can, therefore, get data from the following URLs:
 
-TODO - make sure JSON format works
+```
+/data/unique_users/?resolution=daily
+/data/unique_users/?resolution=weekly
+/data/unique_users/?resolution=monthly
+
+/data/minutes_watched/?resolution=daily
+/data/minutes_watched/?resolution=weekly
+/data/minutes_watched/?resolution=monthly
+
+/data/toplist/?num=10
+```
+
+We will use these URLs from the JavaScript code to get data for visualisation.
 
 ### Javascript 
 
@@ -86,6 +98,8 @@ TODO - make sure JSON format works
 ### A dashboard
 
 visualise the analysis
+
+TODO - make sure JSON format works
 
 http://metricsgraphicsjs.org/
 

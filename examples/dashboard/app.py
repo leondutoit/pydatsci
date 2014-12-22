@@ -42,7 +42,7 @@ def hello():
     return render_template("index.html")
 
 @app.route("/data/<ts_metric>/")
-def get_users(ts_metric):
+def get_metric(ts_metric):
     res = request.args.get("resolution")
     db = get_db()
     df = get_data_from_db(db)
