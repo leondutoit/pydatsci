@@ -386,7 +386,6 @@ var uniqueUsersDaily = function () {
     var url = "/data/unique_users/?resolution=daily";
     d3.json(url, function(data) {
         data = MG.convert.date(data, "date");
-        console.log(data);
         MG.data_graphic({
             title: "Daily unique users",
             description: "#Users that watched a movie or series per day",
@@ -407,6 +406,87 @@ var drawGraphs = function() {
 drawGraphs();
 ```
 
-#### d3
+This is great - we are fecthing data from the database, aggregating it into a daily metric using pandas, serving it to the browser as JSON via flask and using our own JavaScript code in conjunction with metricsgraphs to create an interactive visualisation. This is an end-to-end data flow: from raw input data to presentation.
 
-intro
+#### Improving the dashboard
+
+We want the dashboard to be a bit more useful - for example give users the ability to choose which metrics they want to see. A rather crude, but still effective way to do this (without too much UI work) is to use URL inputs to dynamically request different graphs. We can add a few functions to our `metrics_graphs.js` code to accomplish that.
+
+```javascript
+var uniqueUsersDaily = function () {
+    // a simple graph
+    var url = "/data/unique_users/?resolution=daily";
+    d3.json(url, function(data) {
+        data = MG.convert.date(data, "date");
+        MG.data_graphic({
+            title: "Daily unique users",
+            description: "#Users that watched a movie or series per day",
+            data: data,
+            width: 650,
+            height: 400,
+            target: "#metricsGraphs",
+            x_accessor: "date",
+            y_accessor: "values"
+        });
+    });
+};
+
+// we assume we want to display one graph at a time
+// for a given URL with a specific metric name and resolution
+
+var graphSpecs = {
+    unique_users: {
+        title: "Unique users",
+        description: "The unique number of users per period"
+    },
+    minutes_watched: {
+        title: "Total minutes watched",
+        description: "The total minutes streamed (movies and series) per period"
+    }
+};
+
+$.urlParam = function(name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results === null) {
+       return null;
+    } else {
+       return results[1] || 0;
+    }
+};
+
+var buildUrl = function() {
+    var metric = $.urlParam("metric");
+    var resolution = $.urlParam("resolution");
+    var url = "".concat("/data/", metric, "/?resolution=", resolution);
+    return url;
+}
+
+var createGraph = function(url, spec) {
+    d3.json(url, function(data) {
+        data = MG.convert.date(data, "date");
+        MG.data_graphic({
+            title: spec.title,
+            description: spec.description,
+            data: data,
+            width: 650,
+            height: 400,
+            target: "#metricsGraphs",
+            x_accessor: "date",
+            y_accessor: "values"
+        });
+    });
+};
+
+var renderGraphs = function() {
+    var url = buildUrl();
+    var metric = $.urlParam("metric");
+    createGraph(url, graphSpecs[metric]);
+};
+
+renderGraphs();
+```
+
+We can now type for example `localhost:9009/?metric=minutes_watched&resolution=daily` or `localhost:9009/?metric=unique_users&resolution=daily` and that will fetch the relevant data and construct the relevant graph. 
+
+To create this basic interactive dashboard we have relied on the metricsgraphics.js library for high level functionality built on top of d3. d3 is a visualisation library that allows you to build highly customisable interactive visualisations but it requires much more effort to create simple graphics. We will create d3 visualisations in the next session when we further discuss the differences between presentation adn staticstical graphics.
+
