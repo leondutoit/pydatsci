@@ -214,7 +214,7 @@ var onlyEven = function(nums) {
 
 doSomethingAndThenAverage([99, 88, 6, 3, 1, 3, 2, 46], onlyEven);
 
-// immediately invoked function expressions
+// immediately invoked function expressions (iffys)
 // here we can create many new objects which will be destroyed
 // when the function expression is done being invoked
 // this is useful, for example, if you want to return only one thing
@@ -230,7 +230,7 @@ doSomethingAndThenAverage([99, 88, 6, 3, 1, 3, 2, 46], onlyEven);
     console.log(totalKms);
 })();
 
-// the object we created are not there anymore
+// the objects we created are not there anymore
 myObj;
 kms;
 totalKms;
@@ -240,14 +240,44 @@ We will use the JavaScript concepts and techniques introduced in this section to
 
 ### JSON
 
-```javascript
-ex = JSON.parse("{\"key\": 10}");
+Let's have another look at the flask function that return the data from the db to the browser:
 
+```python
+def json_resp(df, format = "ts"):
+    if format == "ts":
+        df = pd.DataFrame({
+            'date': df.index,
+            'values': df.values})
+    else:
+        df = pd.DataFrame({
+            'title': df.index,
+            'values': df.values})
+    return Response(
+        df.to_json(orient = 'records'),
+        mimetype = 'application/json')
+```
+
+We've mentioned the `mimetype` argument before: the internet media type specified in the HTTP response. We are sending data from a python program using the HTTP protocol. The python application has the data in memory in the form of a pandas DataFrame. Since the browser does not run python we have to convert the data from a DataFrame to something that we can work with when it arrives in the brower's environment - something that we can manipulate within JavaScript to create our visualisations. We need a data interchange format and in this case we will use [JSON](http://www.json.org/js.html).
+
+In our `json_resp` function we use the pandas DataFrame method to create JSON from the data and we set the `mimetype` to `application/json` so the browser will know that it is receiving JSON data. JSON is a subset of the object literal notation of JavaScript - basically sets of keys and values like we have seen with JS objects.
+
+When we create visualisations the visualisation library will call the data URL and receive the JSON response from the web app. These libraries have built in JSON parsers which will, for example, convert the JSON data to JS objects. In this way the library can work with data in a form that it can manipulate in the browser. We can look at a very simple example in the browser's developer console:
+
+```javascript
+// one object
+ex = JSON.parse("{\"key1\": 10, \"key2\": 11}");
+ex.key1;
+ex.key2;
+
+// or an array of objects
+ex2 = JSON.parse("[{\"key\": 100}, {\"key\": 10}]");
+ex2[0].key;
+ex2[1].key;
 ```
 
 ### A dashboard
 
-#### More flask setup
+#### Flask setup
 
 #### Visualisation with metricsgraphics
 
@@ -260,4 +290,4 @@ http://metricsgraphicsjs.org/
 
 #### d3
 
-lower levels...
+intro
