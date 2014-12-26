@@ -2,20 +2,30 @@
 
 <head>
     <title>movie stats dashboard</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/vendor/metricsgraphics.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/styles.css') }}">
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{{ url_for('static', filename = 'css/vendor/metricsgraphics.css') }}">
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{{ url_for('static', filename = 'css/styles.css') }}">
 </head>
 
 <body>
     {% block vendor_scripts %}
         {% for script in ['d3.min.js', 'jquery.min.js', 'metricsgraphics.min.js'] %}
-            <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/' + script ) }}"></script>
+            <script
+                type="text/javascript"
+                src="{{ url_for('static', filename='js/vendor/' + script ) }}"></script>
         {% endfor %}
     {% endblock %}
 
     {% block source_scripts %}
         {% for script in ['metrics_graphs.js', 'd3_graphs.js'] %}
-            <script type="text/javascript" src="{{ url_for('static', filename='js/' + script ) }}"></script>
+            <script
+                type="text/javascript"
+                src="{{ url_for('static', filename='js/' + script ) }}"></script>
         {% endfor %}
     {% endblock %}
 </body>
