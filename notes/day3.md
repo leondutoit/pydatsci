@@ -494,8 +494,12 @@ http://localhost:9009/?metric=<metric>&resolution=<resolution>
         -> hello renders index.html file
             -> loads visualisation libraries and JS scripts
                 -> browser executes JS
-                    -> JS get data from /data/<metric>/?resolution=<resolution>
-                    -> JS uses data to render graph
+                    -> requests data from /data/<metric>/?resolution=<resolution>
+                        -> calls get_metric function
+                            -> gets data from sqlite movie_db
+                                -> pandas custom aggregation & data cleaning
+                                    -> returns JSON to browser
+                                        -> JS uses data to render graph
 ```
 
 To create this basic interactive dashboard we have relied on the metricsgraphics.js library for high level functionality built on top of d3. d3 is a visualisation library that allows you to build highly customisable interactive visualisations but it requires much more effort to create simple graphics. We will create d3 visualisations in the next session when we further discuss the differences between presentation and exploratory graphics.
