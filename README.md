@@ -43,3 +43,12 @@ You can now log in to the VM by doing `$ vagrant ssh`. Once logged in go to the 
 #### Try git
 
 If you do not know about version control with git then it is a good idea to try it out [here](https://try.github.io/levels/1/challenges/1) to see what it is all about.
+
+
+#### LICENSE
+
+AGPL. 2014. Copyright, Leon du Toit.
+
+#### Notice
+
+`jquery`, `d3` and `metricsgraphics` minified source included in along with license notification in `examples/dashboard/static/js/vendor`.

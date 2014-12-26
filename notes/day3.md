@@ -198,7 +198,7 @@ var average = function(nums) {
     for (var i = 0; i < amount; i++) {
         total += nums[i];
     }
-    return total / amount;
+    return (total / amount);
 };
 average([1, 2, 4, 5, 99, 10, 1]);
 
@@ -278,6 +278,43 @@ ex2[1].key;
 ### A dashboard
 
 #### Flask setup
+
+We need to create new files and copy others into the dashboard folder structure.
+
+```
+dashboard/
+    |
+    - moviedb
+    - app.py
+    - analysis_tools.py
+    - static/
+        |
+        css/
+            |
+            - styles.css
+        |
+        js/
+            |
+            - vendor/
+                |
+                - d3.min.js
+                - metricsgraphics.min.js
+                - jquery
+            - metrics_grahps.js
+            - d3_graphs.js
+    - templates/
+        |
+        - index.html
+```
+
+We can do this as follows, assuming you're in the home folder of the vagrant machine.
+
+```sh
+mkdir -p dashboard/static/js/vendor
+touch dashboard/static/css/styles.css 
+touch dashboard/static/js/metrics_graphs.js dashboard/static/js/d3_graphs.js
+cp /vagrant/examples/dashboard/static/js/vendor/* dashboard/static/js/vendor
+```
 
 #### Visualisation with metricsgraphics
 
