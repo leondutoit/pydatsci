@@ -291,6 +291,9 @@ dashboard/
         |
         css/
             |
+            - vendor/
+                |
+                - metricsgraphics.css
             - styles.css
         |
         js/
@@ -300,7 +303,7 @@ dashboard/
                 - d3.min.js
                 - metricsgraphics.min.js
                 - jquery
-            - metrics_grahps.js
+            - metrics_graphs.js
             - d3_graphs.js
     - templates/
         |
@@ -310,20 +313,60 @@ dashboard/
 We can do this as follows, assuming you're in the home folder of the vagrant machine.
 
 ```sh
-mkdir -p dashboard/static/js/vendor
+mkdir dashboard/static/js/vendor
+mkdir dashboard/static/css/vendor
+cp /vagrant/examples/dashboard/static/css/vendor/* dashboard/static/css/vendor
 touch dashboard/static/css/styles.css 
 touch dashboard/static/js/metrics_graphs.js dashboard/static/js/d3_graphs.js
 cp /vagrant/examples/dashboard/static/js/vendor/* dashboard/static/js/vendor
 ```
 
+The final link in the chain is to get the browser to load and execute the JS visualisation code when we navigate to the web app. To accomplish this we modify the `dashboard/templates/index.html` file:
+
+```html
+<html>
+
+<head>
+    <title>movie stats dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/vendor/metricsgraphics.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/styles.css') }}">
+</head>
+
+<body>
+    {% block vendor_scripts %}
+        {% for script in ['d3.min.js', 'jquery.min.js', 'metricsgraphics.min.js'] %}
+            <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/' + script ) }}"></script>
+        {% endfor %}
+    {% endblock %}
+
+    {% block source_scripts %}
+        {% for script in ['metrics_graphs.js', 'd3_graphs.js'] %}
+            <script type="text/javascript" src="{{ url_for('static', filename='js/' + script ) }}"></script>
+        {% endfor %}
+    {% endblock %}
+</body>
+
+</html>
+```
+
+The sequence is now as follows:
+
+```
+http://localhost:9009/ 
+    -> calls hello function in app.py
+        -> hello renders index.html file
+            -> loads visualisation libraries and JS scripts
+                -> browser executes JS
+```
+
+At this point our visualisation code will be executed.
+
 #### Visualisation with metricsgraphics
 
-visualise the analysis
+We will create some interactive graphs with the [metricsgraphics](http://metricsgraphicsjs.org/) library - a library for interactive presentation graphics built on top of d3. To do that we will write our visualisation code in `dashboard/static/js/metrics_graphs.js`:
 
-TODO - make sure JSON format works
-
-http://metricsgraphicsjs.org/
-
+```javascript
+```
 
 #### d3
 
