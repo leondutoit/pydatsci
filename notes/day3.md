@@ -486,7 +486,17 @@ var renderGraphs = function() {
 renderGraphs();
 ```
 
-We can now type for example `localhost:9009/?metric=minutes_watched&resolution=daily` or `localhost:9009/?metric=unique_users&resolution=daily` and that will fetch the relevant data and construct the relevant graph. 
+We can now type for example `localhost:9009/?metric=minutes_watched&resolution=daily` or `localhost:9009/?metric=unique_users&resolution=daily` and that will fetch the relevant data and construct the relevant graph. The execution sequence is now as follows:
 
-To create this basic interactive dashboard we have relied on the metricsgraphics.js library for high level functionality built on top of d3. d3 is a visualisation library that allows you to build highly customisable interactive visualisations but it requires much more effort to create simple graphics. We will create d3 visualisations in the next session when we further discuss the differences between presentation adn staticstical graphics.
+```
+http://localhost:9009/?metric=<metric>&resolution=<resolution>
+    -> calls hello function in app.py
+        -> hello renders index.html file
+            -> loads visualisation libraries and JS scripts
+                -> browser executes JS
+                    -> JS get data from /data/<metric>/?resolution=<resolution>
+                    -> JS uses data to render graph
+```
+
+To create this basic interactive dashboard we have relied on the metricsgraphics.js library for high level functionality built on top of d3. d3 is a visualisation library that allows you to build highly customisable interactive visualisations but it requires much more effort to create simple graphics. We will create d3 visualisations in the next session when we further discuss the differences between presentation and exploratory graphics.
 
