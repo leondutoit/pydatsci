@@ -343,7 +343,8 @@ The final link in the chain is to get the browser to load and execute the JS vis
         {% for script in ['d3.min.js', 'jquery.min.js', 'metricsgraphics.min.js'] %}
             <script
                 type="text/javascript"
-                src="{{ url_for('static', filename='js/vendor/' + script ) }}"></script>
+                src="{{ url_for('static', filename='js/vendor/' + script ) }}">
+            </script>
         {% endfor %}
     {% endblock %}
 
@@ -351,7 +352,8 @@ The final link in the chain is to get the browser to load and execute the JS vis
         {% for script in ['metrics_graphs.js', 'd3_graphs.js'] %}
             <script
                 type="text/javascript"
-                src="{{ url_for('static', filename='js/' + script ) }}"></script>
+                src="{{ url_for('static', filename='js/' + script ) }}">
+            </script>
         {% endfor %}
     {% endblock %}
 </body>
