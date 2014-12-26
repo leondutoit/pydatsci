@@ -173,7 +173,7 @@ dashboard/
     - moviedb
     - app.py
     - analysis_tools.py
-    - static/
+    static/
         |
         css/
         |

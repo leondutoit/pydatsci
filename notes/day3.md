@@ -287,25 +287,25 @@ dashboard/
     - moviedb
     - app.py
     - analysis_tools.py
-    - static/
+    static/
         |
         css/
             |
-            - vendor/
+            vendor/
                 |
                 - metricsgraphics.css
             - styles.css
         |
         js/
             |
-            - vendor/
+            vendor/
                 |
                 - d3.min.js
                 - metricsgraphics.min.js
                 - jquery
             - metrics_graphs.js
             - d3_graphs.js
-    - templates/
+    templates/
         |
         - index.html
 ```
@@ -356,6 +356,9 @@ The final link in the chain is to get the browser to load and execute the JS vis
             </script>
         {% endfor %}
     {% endblock %}
+    <!-- placeholders for graphs -->
+    <div id="metricsGraphs"></div>
+    <div id="d3Graphs"></div>
 </body>
 
 </html>
@@ -375,9 +378,33 @@ At this point our visualisation code will be executed.
 
 #### Visualisation with metricsgraphics
 
-We will create some interactive graphs with the [metricsgraphics](http://metricsgraphicsjs.org/) library - a library for interactive presentation graphics built on top of d3. To do that we will write our visualisation code in `dashboard/static/js/metrics_graphs.js`:
+We will create some interactive graphs with the [metricsgraphics](http://metricsgraphicsjs.org/) library - a library for interactive presentation graphics built on top of d3. To do that we will write our visualisation code in `dashboard/static/js/metrics_graphs.js`. Let's start with a simple area graph:
 
 ```javascript
+var uniqueUsersDaily = function () {
+    // a simple graph
+    var url = "/data/unique_users/?resolution=daily";
+    d3.json(url, function(data) {
+        data = MG.convert.date(data, "date");
+        console.log(data);
+        MG.data_graphic({
+            title: "Daily unique users",
+            description: "#Users that watched a movie or series per day",
+            data: data,
+            width: 650,
+            height: 400,
+            target: "#metricsGraphs",
+            x_accessor: "date",
+            y_accessor: "values"
+        });
+    });
+};
+
+var drawGraphs = function() {
+    uniqueUsersDaily();
+}
+
+drawGraphs();
 ```
 
 #### d3
