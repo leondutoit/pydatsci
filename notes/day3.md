@@ -91,11 +91,165 @@ if __name__ == '__main__':
 
 We will use these URLs from the JavaScript code to get data for visualisation.
 
-### Javascript 
+### Javascript
+
+[Javascript](http://en.wikipedia.org/wiki/JavaScript) is a dynamic language used by web browsers to create dynamic web pages. The browser has a JS runtime which executes the code sent to you by the website. We will use the browser's developer tools as an interactive prompt to evaluate the JavaScript in this section. Open the developer console.
+
+```javascript
+/* this is a comment
+that spans multiple lines */
+
+// this is a single line comment
+
+// basic data types
+var num = 9;
+typeof(num);
+var st = "hello";
+typeof(st);
+var n = null;
+typeof(n);
+typeof(true);
+typeof(false);
+var d = new Date();
+typeof(d);
+
+// operators and logic
+// stricy comparison (no type conversion)
+num === 9; 
+num !== 10;
+num == 9;
+num != 10;
+num == "9";
+num > 5 && num < 10;
+num < 5 || num === 9;
+!(num === 9);
+((((num * 9) / 10.0) + 10) - 1) % 2;
+
+// data structures, methods, anonymous functions
+// arrays
+var a = [4, 5, 6, 10];
+a[0];
+a.map(function(input) { return input*input; });
+a.forEach(function(input) { console.log(input); });
+a.filter(function(input) {if (input % 2 === 0) return input; });
+
+// object literals
+var ob = { k: 100 };
+ob;
+ob.k;
+
+// arrays of objects - a common pattern
+var data = [
+    {
+        name: "title1",
+        value: 100
+    }, 
+    {
+        name: "title2",
+        value: 11
+    }, 
+    {
+        name: "title3",
+        value: 136
+    }
+];
+data;
+data[0].name;
+data[0].value;
+
+// use array method to access data in objects
+data.forEach(function(d) {
+        var announcement = d.name + " received " + d.value + " views.";
+        console.log(announcement);
+    }
+);
+
+// control flow
+for (var i = 0; i < a.length; i++) {
+    var currentNum = a[i];
+    if (currentNum % 2 === 0) {
+        console.log(a[i]);    
+    } else {
+        console.log("uneven number found");
+    }
+}
+
+var cond = true;
+while (cond) {
+    console.log("the condition is " + cond);
+    cond = false;
+}
+
+// functions
+var sayHello = function() {
+    console.log("Hello");
+};
+sayHello();
+
+var saySomething = function(thing) {
+    var message = "I am saying: " + thing;
+    console.log(message);
+};
+saySomething();
+
+var average = function(nums) {
+    var amount = nums.length;
+    var total = 0;
+    for (var i = 0; i < amount; i++) {
+        total += nums[i];
+    }
+    return total / amount;
+};
+average([1, 2, 4, 5, 99, 10, 1]);
+
+var doSomethingAndThenAverage = function(nums, todo) {
+    var outcome = todo(nums);
+    return average(outcome);
+};
+
+var onlyEven = function(nums) {
+    var evens = nums.filter(function(n) { if (n % 2 === 0) return n; });
+    return evens;
+};
+
+doSomethingAndThenAverage([99, 88, 6, 3, 1, 3, 2, 46], onlyEven);
+
+// immediately invoked function expressions
+// here we can create many new objects which will be destroyed
+// when the function expression is done being invoked
+// this is useful, for example, if you want to return only one thing
+// or make changes to a display without returning anything
+// it is a way to keep data private and to group relevant code together
+(function() {
+    var myObj = {
+        metaData: "How many kilometers traveled per day",
+        data: [10, 100, 20, 1, 11, 88]
+    };
+    var kms = myObj.data;
+    var totalKms = kms.reduce(function(a, b) { return a + b; });
+    console.log(totalKms);
+})();
+
+// the object we created are not there anymore
+myObj;
+kms;
+totalKms;
+```
+
+We will use the JavaScript concepts and techniques introduced in this section to build an interactive dashboard with our web app.
 
 ### JSON
 
+```javascript
+ex = JSON.parse("{\"key\": 10}");
+
+```
+
 ### A dashboard
+
+#### More flask setup
+
+#### Visualisation with metricsgraphics
 
 visualise the analysis
 
@@ -104,6 +258,6 @@ TODO - make sure JSON format works
 http://metricsgraphicsjs.org/
 
 
-### d3 starters
+#### d3
 
 lower levels...
