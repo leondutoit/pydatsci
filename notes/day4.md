@@ -233,8 +233,86 @@ Good visualisation systems provide helper functions and sensilbe defaults for ch
 
 Another important point is to avoid red-green colour combinations - about 6% of the male population is colourblind. If you use such combinations you risk losing the communicative power of your visualisation.
 
-For more detail and an excellent discussion of colour choice in statistical graphics read [Escaping RGBland](http://statmath.wu.ac.at/~zeileis/papers/Zeileis+Hornik+Murrell-2009.pdf).
+For more detailed and an excellent discussion of colour choice in statistical graphics read [Escaping RGBland](http://statmath.wu.ac.at/~zeileis/papers/Zeileis+Hornik+Murrell-2009.pdf).
 
 ### Exploratory graphics with ggplot
 
-yhat's [ggplot](http://ggplot.yhathq.com/)
+For exploratory graphics we will use [ggplot](http://ggplot.yhathq.com/) - a port of the [R](http://www.r-project.org/) language's [ggplot2](http://ggplot2.org/) and an implementation of the [Grammar of Graphics](http://www.amazon.com/The-Grammar-Graphics-Statistics-Computing/dp/0387245448). The central idea underpinning the Grammar of Graphics is that the user creates a statistical graphic by specifying what they want to see - they describe the graphic with a grammar and the system uses the rules of the grammar to figure out how the description should be translated into data transformations and visualisations. Instead of, therefore, saying in detail what to draw (as we did with d3) we will use higher level concepts to describe what we want to see.
+
+#### ggplot
+
+We should be in the `dashboard` directory - we will use the `moviedb` data in combination with `analysis_tools.py`.
+
+```python
+import sqlite3
+import pandas as pd
+from ggplot import *
+from analysis_tools import *
+
+conn = sqlite3.connect("moviedb")
+# remove some numeric rows with null values - implifies visualisation code
+query = "select * from movies where viewpercentage != ''"
+mvdata = pd.read_sql(query, conn)
+mvdata.index = pd.DatetimeIndex(mvdata.event_date)
+conn.close()
+
+def as_df(series):
+    return pd.DataFrame({
+        "date": series.index.to_datetime(),
+        "values": series.values})
+
+users = as_df(unique_users(mvdata, "daily"))
+mins = as_df(minutes_watched(mvdata, "weekly"))
+
+# we add geometries as layers to base objects based on data
+ggplot(aes(x = "date", y = "values"), data = users) + geom_line()
+ggplot(aes(x = "date", y = "values"), data = mins) + geom_point() + stat_smooth()
+
+# a common task is to compare a metric to a benchmark
+ggplot(aes(x = "date", y = "values"), data = users) + \
+    geom_line() + geom_hline(yintercept = [10], colour = "red")
+
+# the dispertion of session length
+ggplot(aes(x = "totalminuteswatched"), data = mvdata) + geom_histogram()
+
+# session length dispertion by session type (movies/series)
+ggplot(aes(x = "totalminuteswatched", fill = "sessiontype"), data = mvdata) + \
+    geom_density(alpha = 0.25)
+
+# role of device in session length along with type
+ggplot(aes(x = "totalminuteswatched", fill = "sessiontype"), data = mvdata) + \
+    geom_density(alpha = 0.25) + facet_wrap("device")
+
+# which device lends itself more to finishing a session
+ggplot(aes(x = "viewpercentage"), data = mvdata) + geom_histogram() + \
+    facet_wrap("device")
+
+# remove crazy viewpercentage > 100%
+mvclean = mvdata[mvdata.viewpercentage < 100]
+
+ggplot(aes(x = "viewpercentage"), data = mvclean) + \
+    geom_histogram() + facet_wrap("device")
+
+# perhaps a relation between content duration and finishing a session
+ggplot(aes(x = "runningtime", y = "viewpercentage"), data = mvclean) + geom_point()
+
+# let's remove very short sessions - call them sample peeks
+# we also use a technique called jittering to make the points more visible
+ggplot(
+    aes(x = "runningtime", y = "viewpercentage"),
+    data = mvclean[mvclean.viewpercentage > 20]) + \
+        geom_point() + geom_jitter() + stat_smooth(colour = "blue")
+
+# polish this last graph a bit
+ggplot(
+    aes(x = "runningtime", y = "viewpercentage"),
+    data = mvclean[mvclean.viewpercentage > 20]) + \
+        geom_point() + geom_jitter() + stat_smooth(colour = "blue") + \
+        ggtitle("Relation between running time and view percentage") + \
+        ylab("% of content viewed") + xlab("Content running time")
+```
+
+ggplot provides plotting facilities at a much higher level than d3. It also makes many decisions for you - which is a good thing if they are made well and if the constraints imposed by them match your use case. If your use case is exploratory graphics, to learn about your data with a rapid succession of statistical graphics then it is a very good fit. It will also suffice for many presentation purposes, even if they will not be very fancy.
+
+For some the Grammar of Graphics approach does not work - perhaps the syntax is too terse or perhaps you are already familiar with another approach that works for you. That is obviously fine :) Another python visualisation library focused on data analysis and exploration that is well worth a look is [seaborn](http://stanford.edu/~mwaskom/software/seaborn/index.html). It is also a safe bet to be conversant with more than one graphical library since you will invariably run into limitations as your needs to visualise your data grow.
+
