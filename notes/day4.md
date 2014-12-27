@@ -5,9 +5,11 @@
 
 ### Presentation graphics with d3
 
-[d3](http://d3js.org/)
+[d3](http://d3js.org/) "allows you to bind arbitrary data to a Document Object Model (DOM), and then apply data-driven transformations to the document." What exaclty does this mean? The [DOM](http://www.w3.org/DOM/Overview) "is a platform- and language-neutral interface that will allow programs and scripts to dynamically access and update the content, structure and style of documents. The document can be further processed and the results of that processing can be incorporated back into the presented page." In other words it provides us a way of manipulating the HTML page in the browser from a programming language - and in this case in combination with data.
 
-Before we move into the visualisation a short interactive introduction to d3 is appropriate - let's use the developer console for this (in our existing web app).
+This model has facilitated the development of incredibly powerful domain specific languages (DSLs) such as d3, where the language is tailored around a set of common tasks. In this case, creating interactive HTML visualisations from data. [Here](http://bl.ocks.org/mbostock) and [here](http://www.jasondavies.com/) are some examples of what is possible.
+
+Before we move into the visualisation a short interactive introduction to d3 is appropriate - let's use the developer console for this (in our existing web app). d3 allows you to manipulate DOM elements in a data driven way. In this session we will do exactly that: manipulate the current HTML page.
 
 ```javascript
 d3.selectAll("svg").remove();
