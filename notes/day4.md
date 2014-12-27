@@ -1,7 +1,9 @@
 
 ### Presentation vs. exploratory graphics
 
+There are many visualisation tools available - for both python and javascript and more. A helpful conceptual distinction to make when choosing the tool for the job is between presentation and exploratory graphics. The primary purpose of a presentation graphic is to be shown to a user who did not make the graphic themselves in order to help them develop insight about the data. An exploratory graphic is, however, intended to help the person creating it insight into the data. Such graphics are typically part of a series of graphics each intended to give a different insight into one or more aspects of the data.
 
+Considering the different objectives of these types of graphics it is natural that toolsets will develop around satistying the requirements to produce such graphics. Presentation graphics require fine grained control of each element of the graphic while exploratory graphics need to be fast and simple to make. d3 is an example of a system for presentation graphics, while ggplot is an example of a system for exploratory graphics.
 
 ### Presentation graphics with d3
 
