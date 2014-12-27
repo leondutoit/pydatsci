@@ -51,7 +51,7 @@ circle.on("mouseover", function() {
 d3.selectAll("circle").remove();
 
 // working with data (enter selections)
-var data = [10, 1, 12, 14, 11, 30, 36, 10];
+var data = [10, 9, 12, 14, 11, 30, 36, 10];
 var circles = drawing.append("g")
     .attr("class", "circles")
     .attr("id", "circleId")
@@ -227,11 +227,13 @@ We also need to add css to our stylesheet in `static/css/styles.css`:
 }
 ```
 
-#### Aspects of visualisation
+#### Colour
 
-colour
-interactivity
-design
+Good visualisation systems provide helper functions and sensilbe defaults for choosing colours. d3 provides access to the colour designs and specifications develpoed by Cynthia Brewer in the form of an internal object [mapping](https://github.com/mbostock/d3/tree/master/lib/colorbrewer). Her [website](http://colorbrewer2.org/) is a great guide to choosing colour schemes that work well. In d3 you can choose from colour [palletes](https://github.com/mbostock/d3/wiki/Ordinal-Scales#categorical-colors) for ordinal scales or using colour space [functions](https://github.com/mbostock/d3/wiki/Colors).
+
+Another important point is to avoid red-green colour combinations - about 6% of the male population is colourblind. If you use such combinations you risk losing the communicative power of your visualisation.
+
+For more detail and an excellent discussion of colour choice in statistical graphics read [Escaping RGBland](http://statmath.wu.ac.at/~zeileis/papers/Zeileis+Hornik+Murrell-2009.pdf).
 
 ### Exploratory graphics with ggplot
 
