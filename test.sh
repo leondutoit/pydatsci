@@ -11,7 +11,7 @@ test_command() {
     fi
 }
 
-py_packages=$(ipython -c 'import numpy, pandas, flask')
+py_packages=$(ipython -c 'import numpy, pandas, flask, scipy, statsmodels, matplotlib, ggplot')
 packages_installed=$?
 
 sqlite_status=$(sqlite3 -version)
