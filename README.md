@@ -44,6 +44,9 @@ You can now log in to the VM by doing `$ vagrant ssh`. Once logged in go to the 
 
 If you do not know about version control with git then it is a good idea to try it out [here](https://try.github.io/levels/1/challenges/1) to see what it is all about.
 
+#### Notes
+
+On Mac you'll need an up to date version of [XQuartz](http://xquartz.macosforge.org/landing/) to display the ggplot graphics. On Linux X11 should be fine. On Windows I'm uncertain still - Cygwin I think ([link](http://stackoverflow.com/questions/20094118/ssh-into-vagrant-with-x-server-set-up)).
 
 #### LICENSE
 
