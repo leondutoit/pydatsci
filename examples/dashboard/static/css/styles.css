@@ -1,0 +1,31 @@
+.title {
+    font-weight: bold;
+}
+.x-axis line {
+    fill: none;
+    stroke: none;
+    stroke-opacity:.8;
+    shape-rendering: crispEdges;
+}
+.x-axis path {
+    stroke: white;
+    fill: none;
+}
+.x-axis text {
+    font-size: 10px;
+}
+.labels {
+    font-size: 5px;
+}
+#na {
+    fill: white;
+}
+#zero {
+    fill: #6b6ecf;
+}
+#positive {
+    fill: #393b79;
+}
+#negative {
+    fill: #17becf;
+}
