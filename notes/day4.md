@@ -14,7 +14,56 @@ This model has facilitated the development of incredibly powerful domain specifi
 Before we move into the visualisation a short interactive introduction to d3 is appropriate - let's use the developer console for this (in our existing web app). d3 allows you to manipulate DOM elements in a data driven way. In this session we will do exactly that: manipulate the current HTML page.
 
 ```javascript
+// removing, creating, modifying html elements
 d3.selectAll("svg").remove();
+d3.select("body").append("p").text("Hello world");
+d3.selectAll("p").attr("class", "helloClass");
+d3.selectAll("p").attr("id", "helloId");
+d3.select(".helloClass").style("font-size", "20px");
+d3.select("#helloId").style("font-size", "10px");
+d3.selectAll("p").remove();
+
+// working with svg elements
+// a base svg
+var svg = d3.select("body").append("svg");
+svg.attr("width", 600).attr("height", 500);
+// a group element, bordered within the base svg - setting up margins for display
+// we also transform the drawing space coordinates
+var margin = {top: 50, bottom: 50, left: 50, right: 50};
+var width = 600 - margin.left - margin.right;
+var height = 500 - margin.top - margin.bottom;
+var drawing = svg.append("g").attr("transform", 
+    "translate(" + margin.left + "," + margin.top + ")").attr("class", "drawing-svg");
+// a simple svg shape
+var circle = drawing.append("circle").attr("cx", 60).attr("cy", 60).attr("r", 50);
+circle.style("stroke", "blue");
+circle.style("fill", "white");
+circle.style("stroke-width", "5");
+circle.attr("id", "circId");
+// mouse-over events
+circle.on("mouseover", function() {
+        var id = d3.select(this).attr("id");
+        d3.selectAll("#" + id).style("fill", "cyan");
+    }).on("mouseout", function() {
+        var id = d3.select(this).attr("id");
+        d3.selectAll("#" + id).style("fill", "white");
+    });
+d3.selectAll("circle").remove();
+
+// working with data (enter selections)
+var data = [10, 1, 12, 14, 11, 30, 36, 10];
+var circles = drawing.append("g")
+    .attr("class", "circles")
+    .attr("id", "circleId")
+    .selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function(i) { return i*7; })
+    .attr("cy", 200)
+    .attr("r", function(d) { return d; })
+    .attr("stroke", "black")
+    .attr("fill", "white");
 ```
 
 We are going to use a new dataset that has already been prepated for visualisation. The data source is the Penn World Tables. Each country's GDP is converted into US Dollar terms (2005 constant prices) using Purchasing Power Parity weighting. The conversion to real terms allows us to see changes in volumes over time, while the conversion to USD using PPP allows for a common unit of expression. We copy the data to the app folder.
