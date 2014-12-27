@@ -313,12 +313,12 @@ dashboard/
 We can do this as follows, assuming you're in the home folder of the vagrant machine.
 
 ```sh
-mkdir dashboard/static/js/vendor
-mkdir dashboard/static/css/vendor
-cp /vagrant/examples/dashboard/static/css/vendor/* dashboard/static/css/vendor
-touch dashboard/static/css/styles.css 
-touch dashboard/static/js/metrics_graphs.js dashboard/static/js/d3_graphs.js
-cp /vagrant/examples/dashboard/static/js/vendor/* dashboard/static/js/vendor
+$ mkdir dashboard/static/js/vendor
+$ mkdir dashboard/static/css/vendor
+$ cp /vagrant/examples/dashboard/static/css/vendor/* dashboard/static/css/vendor
+$ touch dashboard/static/css/styles.css 
+$ touch dashboard/static/js/metrics_graphs.js dashboard/static/js/d3_graphs.js
+$ cp /vagrant/examples/dashboard/static/js/vendor/* dashboard/static/js/vendor
 ```
 
 The final link in the chain is to get the browser to load and execute the JS visualisation code when we navigate to the web app. To accomplish this we modify the `dashboard/templates/index.html` file:
@@ -502,5 +502,5 @@ http://localhost:9009/?metric=<metric>&resolution=<resolution>
                                         -> JS uses data to render graph
 ```
 
-To create this basic interactive dashboard we have relied on the metricsgraphics.js library for high level functionality built on top of d3. d3 is a visualisation library that allows you to build highly customisable interactive visualisations but it requires much more effort to create simple graphics. We will create d3 visualisations in the next session when we further discuss the differences between presentation and exploratory graphics.
+All of this happens in roughly 350 milliseconds. To create this basic interactive dashboard we have relied on the metricsgraphics.js library for high level functionality built on top of d3. d3 is a visualisation library that allows you to build highly customisable interactive visualisations but it requires much more effort to create simple graphics. We will create d3 visualisations in the next session when we further discuss the differences between presentation and exploratory graphics.
 
