@@ -291,7 +291,7 @@ if __name__ == '__main__':
     app.run(port = 9009, debug = True)
 ```
 
-We can run this as follows: `$ python flask_hello_world.py` and browse to `localhost:9009` in our browser. The `@app.route("/")` is an annotation - a flask specific construct. In general an annotation modifies the behaviour of the function it annotates. Annotations are built-in language constructs. In this case it simply means that the `hello` function should be called when the browser makes a HTTP request to the app at the root URL `/`. In subsequent web app development we will make more use of custom URLs to control which functions are executed.
+We can run this as follows: `$ python flask_hello_world.py` and browse to `localhost:9009` in our browser. The `@app.route("/")` is an annotation - a flask specific construct. In general an annotation modifies the behaviour of the function it annotates. Annotations are built-in language constructs. In this case it simply means that the `hello` function should be called when the browser makes a HTTP request to the app at the root URL `/`. In subsequent web app development we will make more use of custom URLs to control which functions are executed. For a detailed explanation of how the `@app.route` decorator works see [this](http://ains.co/blog/things-which-arent-magic-flask-part-1.html) blog post.
 
 
 #### Talking to the db

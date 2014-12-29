@@ -316,3 +316,4 @@ ggplot provides plotting facilities at a much higher level than d3. It also make
 
 For some the Grammar of Graphics approach does not work - perhaps the syntax is too terse or perhaps you are already familiar with another approach that works for you. That is obviously fine :) Another python visualisation library focused on data analysis and exploration that is well worth a look is [seaborn](http://stanford.edu/~mwaskom/software/seaborn/index.html). It is also a safe bet to be conversant with more than one graphical library since you will invariably run into limitations as your needs to visualise your data grow.
 
+Other interesting projects are [bokeh](http://bokeh.pydata.org/) and [vincent](https://vincent.readthedocs.org/en/latest/quickstart.html). Both focus on creating visualisations for the web from python.
