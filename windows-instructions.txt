@@ -1,0 +1,24 @@
+
+Install xming:
+	http://sourceforge.net/projects/xming/
+After installing it, launch xming. It will minimize to the taskbar tray.
+
+Then, download PuTTY as well as PuTTYgen:
+	http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
+	
+Type "vagrant ssh-config" to find out the details of how to connect to your VM.
+Using puttygen, load the IdentityFile (it will be called "private_key").
+Then do File > Save Private Key, to save that key to a new file called "private_key.ppk".
+
+Start Putty, and configure it to connect to your VM.
+The HostName and Port you will find in the "vagrant ssh-config" output.
+Enter those into Putty's session configuration.
+Then, go to Putty's Connection > SSH section.
+Under X11, tick "Enable X11 forwarding"
+Under Auth, under "Private key file for authentication", specify the private_key.ppk file that you converted using puttygen.
+Connect to the machine. "vagrant ssh-config" will tell you the username. You shouldn't need a password, since you're using a private key file to authenticate.
+
+
+---- This doesn't apply if you're using putty to connect to your VM ----
+When doing things from a console, use the Git Bash terminal. When you install Git on Windows, it should create a shortcut to "Git Bash" in your Start menu.
+
