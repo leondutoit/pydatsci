@@ -46,7 +46,7 @@ If you do not know about version control with git then it is a good idea to try 
 
 #### Notes
 
-On Mac you'll need an up to date version of [XQuartz](http://xquartz.macosforge.org/landing/) to display the ggplot graphics. On Linux X11 should be fine. On Windows I'm uncertain still - Cygwin I think ([link](http://stackoverflow.com/questions/20094118/ssh-into-vagrant-with-x-server-set-up)).
+On Mac you'll need an up to date version of [XQuartz](http://xquartz.macosforge.org/landing/) to display the ggplot graphics. On Linux X11 should be fine. On Windows, follow the instructions in `windows-instructions.txt`.
 
 #### LICENSE
 
