@@ -1,4 +1,10 @@
 
+### Tools
+
+For Mac I recommend using [iTerm2](http://iterm2.com/) as a terminal application. For Windows you can use the `Git Bash` Shell which is included in the git download. Linux ships with a decent terminal app.
+
+For a text editor I recommend [Sublime Text](http://www.sublimetext.com/2). It is cross platform.
+
 ### Manage and share code
 
 We will keep the code we write throughout the workshop in version controlled git repositories on our own machines. You must, therefore, have git installed. Create a workshop folder `$ mkdir ccampus_pydatsci`. Step into that folder `$ cd ccampus_pydatsci`. This is where we will create all our files and directories.
