@@ -1,7 +1,7 @@
 
 ### Flask, the db and analysis
 
-To use our analysis tools from the web to deliver data to the browser (for visualisation) we extend the `dashboard/app.py` file.
+To use our analysis tools from the web to deliver data to the browser (for visualisation) we extend the `cc_dashboard/app.py` file.
 
 ```python
 import sqlite3
@@ -282,7 +282,7 @@ ex2[1].key;
 We need to create new files and copy others into the dashboard folder structure.
 
 ```
-dashboard/
+cc_dashboard/
     |
     - moviedb
     - app.py
@@ -313,15 +313,15 @@ dashboard/
 We can do this as follows, assuming you're in the home folder of the vagrant machine.
 
 ```sh
-$ mkdir dashboard/static/js/vendor
-$ mkdir dashboard/static/css/vendor
-$ cp /vagrant/examples/dashboard/static/css/vendor/* dashboard/static/css/vendor
-$ touch dashboard/static/css/styles.css 
-$ touch dashboard/static/js/metrics_graphs.js dashboard/static/js/d3_graphs.js
-$ cp /vagrant/examples/dashboard/static/js/vendor/* dashboard/static/js/vendor
+$ mkdir cc_dashboard/static/js/vendor
+$ mkdir cc_dashboard/static/css/vendor
+$ cp /vagrant/examples/dashboard/static/css/vendor/* cc_dashboard/static/css/vendor
+$ touch cc_dashboard/static/css/styles.css 
+$ touch cc_dashboard/static/js/metrics_graphs.js cc_dashboard/static/js/d3_graphs.js
+$ cp /vagrant/examples/dashboard/static/js/vendor/* cc_dashboard/static/js/vendor
 ```
 
-The final link in the chain is to get the browser to load and execute the JS visualisation code when we navigate to the web app. To accomplish this we modify the `dashboard/templates/index.html` file:
+The final link in the chain is to get the browser to load and execute the JS visualisation code when we navigate to the web app. To accomplish this we modify the `cc_dashboard/templates/index.html` file:
 
 ```html
 <html>
@@ -378,7 +378,7 @@ At this point our visualisation code will be executed.
 
 #### Visualisation with metricsgraphics
 
-We will create some interactive graphs with the [metricsgraphics](http://metricsgraphicsjs.org/) library - a library for interactive presentation graphics built on top of d3. To do that we will write our visualisation code in `dashboard/static/js/metrics_graphs.js`. Let's start with a simple area graph:
+We will create some interactive graphs with the [metricsgraphics](http://metricsgraphicsjs.org/) library - a library for interactive presentation graphics built on top of d3. To do that we will write our visualisation code in `cc_dashboard/static/js/metrics_graphs.js`. Let's start with a simple area graph:
 
 ```javascript
 var uniqueUsersDaily = function () {

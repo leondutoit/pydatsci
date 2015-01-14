@@ -210,7 +210,7 @@ reduce(lambda x, y: x + y, range(10))
 def sum_nums(a, b):
     return a + b
 
-sum_nums(4, 5)
+print sum_nums(4, 5)
 
 def sum_list(some_list):
     the_sum = 0

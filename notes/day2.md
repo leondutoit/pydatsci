@@ -168,7 +168,7 @@ Now we can use pandas to create a set of analysis tools for the movie database. 
 We need to organise our code into a project that will become the interactive dashboard. Create a directory structure as follows:
 
 ```
-dashboard/
+cc_dashboard/
     |
     - moviedb
     - app.py
@@ -183,12 +183,12 @@ dashboard/
         - index.html
 ```
 
-Suppose you're in the vagrant VM in your home folder, then you can create the structure like this:
+Suppose you're in the vagrant VM in your `/vagrant` folder, then you can create the structure like this:
 
 ```sh
-$ mkdir -p dashboard/static/css dashboard/static/js dashboard/templates
-$ touch dashboard/app.py dashboard/analysis_tools.py dashboard/templates/index.html
-$ cp /vagrant/data/moviedb dashboard
+$ mkdir -p cc_dashboard/static/css cc_dashboard/static/js cc_dashboard/templates
+$ touch cc_dashboard/app.py cc_dashboard/analysis_tools.py cc_dashboard/templates/index.html
+$ cp /vagrant/data/moviedb cc_dashboard
 ```
 
 We will create the code in there as we go along. Now  use the `analysis_tools.py` file to create these functions as we go along.
