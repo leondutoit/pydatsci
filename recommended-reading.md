@@ -27,9 +27,9 @@ Once again this is not an attempt at being exhaustive, but rather my own view. I
 
 Another popular news aggregator similar to Hacker News is [slashdot](http://slashdot.org/), which you might like.
 
-#### Books and articles
+### Books and articles
 
-### Python
+#### Python
 * [Python for Data Analysis](http://shop.oreilly.com/product/0636920023784.do)
 * [Problem solving with Algorithms and Data Structures](http://www.amazon.com/Problem-Solving-Algorithms-Structures-Python/dp/1590280539) - also available as [a wiki](http://interactivepython.org/courselib/static/pythonds/index.html)
 

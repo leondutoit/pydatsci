@@ -28,8 +28,8 @@ Visualisation tools for analysis
 #### Expected programming experience and preparation
 
 I will assume that you will have either done this or that you understand that material:
-* [python]()
-* [javascript]()
+* [python](http://www.codecademy.com/tracks/python)
+* [javascript](http://www.codecademy.com/tracks/javascript)
 
 #### Get the VM running
 
