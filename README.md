@@ -1,8 +1,8 @@
-#### pydatsci
+### pydatsci
 
 The aim of the course is to expose participants to practical data analysis and visualisation work and equip them with the necessary knowledge and exposure to further develop your data science skills. Split into four parts, the course will walk through essential programming and data tools like version control, collaboration platforms, virtual machines and databases. Thereafter, we cover data manipulation with the python programming language using the pandas library. We will then use what we have learnt about data databases and data analysis to create an interactive web-based dashboard. To finish we will spend time further exploring topics and tools in data visualisation.
 
-#### Outline
+### Outline
 
 Essential programming and data tools
 * version control
@@ -23,35 +23,26 @@ Visualisation tools for analysis
 * presentation graphics vs. exploratory graphics
 * python statistical graphics libraries
 
-#### Preparations
+### Prep
 
-Before the workshop I recommend you do the following two things: get the vagrant virtual machine running on your machine, and get to know git if you are not already familiar with it. Follow the instructions below to do so.
+#### Expected programming experience and preparation
 
-#### Get vagrant running
+I will assume that you will have either done this or that you understand that material:
+* (python)[] 
+* (javascript)[]
+
+#### Get the VM running
 
 1. Download and install Oracle Virtual Box [here](http://download.virtualbox.org/virtualbox/4.2.0/)
-2. Download and install Vagrant for you platform [here](https://www.vagrantup.com/downloads)
-3. Install Virtual Box Guest Additions: `$ vagrant plugin install vagrant-vbguest`
-4. Download and install [git](http://git-scm.com/downloads) if you do not aleady have it 
-5. Checkout this repository: `$ git clone https://github.com/leondutoit/pydatsci.git`
-6. Navigate to the repository folder locally: `$ cd pydatsci`
-7. Run: `$ vagrant up` - this will take a while...
+2. Get the VM files and start the machine
+3. Run the test script to make sure everything is working
 
-You can now log in to the VM by doing `$ vagrant ssh`. Once logged in go to the `pydatsci` folder: `$ cd /vagrant`. Once there run the test script `./test.sh`. If this runs without reporting an error you are all set to go.
-
+For vbox [display](http://askubuntu.com/questions/452108/cannot-change-screen-size-from-640x480-after-14-04-installation-on-virtualbox-os) improvements.
 
 #### Try git
 
-If you do not know about version control with git then it is a good idea to try it out [here](https://try.github.io/levels/1/challenges/1) to see what it is all about.
+If you do not know about version control with git then it is a good idea to try it out [here](https://try.github.io/levels/1/challenges/1).
 
-#### Notes
+### LICENSE
 
-On Mac you'll need an up to date version of [XQuartz](http://xquartz.macosforge.org/landing/) to display the ggplot graphics. On Linux X11 should be fine. On Windows, follow the instructions in `windows-instructions.txt`.
-
-#### LICENSE
-
-AGPL. 2014. Copyright, Leon du Toit.
-
-#### Notice
-
-`jquery`, `d3` and `metricsgraphics` minified source included in along with license notification in `examples/dashboard/static/js/vendor`.
+AGPL. 2015. Copyright, Leon du Toit.
