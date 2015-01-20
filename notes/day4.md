@@ -77,38 +77,50 @@ Our d3 heatmap code will be in `static/js/d3_graphs.js`.
 ```javascript
 (function(){
 
+    // display variables
     var margin = {top: 70, bottom: 30, left: 100, right: 50},
         width = 900 - margin.left - margin.right,
         height = 450 - margin.top - margin.bottom;
 
+    // base svg element
     var svg = d3.select("body").append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .attr("class", "base-svg");
 
+    // date function
     var parseDate = d3.time.format("%Y").parse;
+    // scale functions
     var xScale = d3.time.scale().range([0, width]);
     var yScale = d3.scale.ordinal().rangeRoundBands([0, height], 1, 0);
 
+    // this group element will contain the visualisation
     var graphSvg = svg.append("g")
                 .attr("transform",
                         "translate(" + margin.left + "," + margin.top + ")")
                 .attr("class", "bar-svg");
 
+    // a group element for the axis
     var x = graphSvg.append("g")
             .attr("class", "x-axis");
 
+    // where to get the data from
     var dataUrl = "static/data.json";
 
+    // load data asynchronously and use it to render svg elements
     d3.json(dataUrl, function(data) {
 
+        // parse dates into values that d3 understands
         data.daterange.forEach(function(d) {
             d = parseDate(d);
         });
 
+        // set the domain for x axis - specify min and max values
         xScale.domain(d3.extent(data.daterange, function(d) { return parseDate(d); }));
+        // set domain for categorical y axis (just labels)
         yScale.domain(data.data.map(function(d) { return d.id; }));
 
+        // add the title to the svg
         d3.select(".base-svg").append("text")
             .attr("x", margin.left)
             .attr("y", (margin.top)/2)
@@ -116,6 +128,7 @@ Our d3 heatmap code will be in `static/js/d3_graphs.js`.
             .text("Real per person GDP growth in the world (PPP): 1960 to 2011")
             .attr("class", "title");
 
+        // add labels
         var labels = graphSvg.append("g").attr("class", "labels")
                         .selectAll("text")
                         .data(data.data)
@@ -129,10 +142,14 @@ Our d3 heatmap code will be in `static/js/d3_graphs.js`.
                         .attr("dy", "1.2em")
                         .attr("id", function(d) { return d.id; });
 
+        // for each country, for all years, draw a rectangle
+        // and add an id attirbute - this will be used from the css style sheet
         data.data.forEach(function(activity) {
 
+            // get the name of the economy
             individualEconomy = activity[activity.id];
 
+            // a group of rectangle elements
             graphSvg.append("g")
                 .attr("class", function(d) { return activity.id; })
                 .selectAll("rect")
@@ -156,16 +173,20 @@ Our d3 heatmap code will be in `static/js/d3_graphs.js`.
                 });
         });
 
+        // create the x axis drawing function
         var xAxis = d3.svg.axis().scale(xScale)
                 .orient("top")
                 .tickSize((-height))
                 .ticks(numTicks);
 
+        // draw the axis
         x.call(xAxis);
 
+        // create a grid
         var numTicks = data.daterange.length;
         var grid = xScale.ticks(numTicks);
 
+        // make the grid white and draw it across the rects
         graphSvg.append("g").attr("class", "grid")
             .selectAll("line")
             .data(grid, function(d) { return d; })
@@ -176,6 +197,7 @@ Our d3 heatmap code will be in `static/js/d3_graphs.js`.
                 .attr("x2", function(d) { return xScale(d); })
                 .attr("stroke", "white");
 
+        // add interactivity
         labels.on("mouseover", function() {
             var country = d3.select(this).attr("id");
             d3.selectAll("#" + country).style("font-size", "12px");
