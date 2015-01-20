@@ -63,23 +63,6 @@ git encourages working with branches. In practice people split their development
 
 If you want, you can [add the local repo to github](https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/) but that is up to you.
 
-### Reproducible work
-
-Reproducibility is essential in software development, data science and science in general. If you find a bug in some code and you need help from someone to fix it then they must be able to reproduce the behaviour in order to understand what is wrong. Part of sharing code is sharing the environment in which the code runs. It is normal for programs to have dependencies in order to run and bundling these dependencies and sets of tools in virtual machine images is one way of making reproducibility easier.
-
-#### Vagrant VM
-
-We will use the vagrant VM as a code execution environment while all files and git repositories will be created on our own machines and accessed from the VM via shared folders. Here is a short list of the essential commands we will need:
-
-```sh
-$ vagrant --help
-$ vagrant status
-$ vagrant ssh # log in to the VM
-$ vagrant provision # rerun the install
-$ vagrant reload # rerun the box build and install
-$ vagrant destroy # kill the VM
-```
-
 ### Python programming
 
 [Python](https://www.python.org/) is a dynamically typed, interpreted language. Dynamically typed languages verify the correctness of data types when the program is run. Interpreted languages are executed by interpreters - in Python this is a program that reads the source code and translates it into python bytecode, which is then executed by a virtual machine. The CPU on your machine executes the virtual machine's code. For a more in depth dicussion of this process have a look at [this](http://stackoverflow.com/questions/3299648/python-compilation-interpretation-process) article. 
