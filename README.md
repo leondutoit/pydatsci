@@ -7,7 +7,6 @@ The aim of the course is to expose participants to practical data analysis and v
 Essential programming and data tools
 * version control
 * collaboration platforms
-* virtual machines
 * python intro
 * sqlite database
 
@@ -16,22 +15,20 @@ Data manipulation and web apps
 * Flask web framework
 
 Web based interactive visualisation
-* make a small dashboard with Javascript, html and css
+* make a dashboard with Python, Javascript, html and css
 * an intro to the d3 Javascript
 
 Visualisation tools for analysis
 * presentation graphics vs. exploratory graphics
 * python statistical graphics libraries
 
-### Prep
-
-#### Expected programming experience and preparation
+### Expected programming experience and preparation
 
 I will assume that you will have either done this or that you understand that material:
 * [python](http://www.codecademy.com/tracks/python)
 * [javascript](http://www.codecademy.com/tracks/javascript)
 
-#### Get the VM running
+### Get the VM running
 
 1. Download and install Oracle Virtual Box [here](http://download.virtualbox.org/virtualbox/4.2.0/)
 2. Get the VM files and start the machine
@@ -39,10 +36,10 @@ I will assume that you will have either done this or that you understand that ma
 
 For vbox [display](http://askubuntu.com/questions/452108/cannot-change-screen-size-from-640x480-after-14-04-installation-on-virtualbox-os) improvements.
 
-#### Try git
+### Try git
 
 If you do not know about version control with git then it is a good idea to try it out [here](https://try.github.io/levels/1/challenges/1).
 
 ### LICENSE
 
-AGPL. 2015. Copyright, Leon du Toit.
+[AGPL](http://www.gnu.org/licenses/agpl-3.0.en.html). 2015. Copyright, Leon du Toit.
