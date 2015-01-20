@@ -310,15 +310,15 @@ cc_dashboard/
         - index.html
 ```
 
-We can do this as follows, assuming you're in the home folder of the vagrant machine.
+Do the following:
 
 ```sh
 $ mkdir cc_dashboard/static/js/vendor
 $ mkdir cc_dashboard/static/css/vendor
-$ cp /vagrant/examples/dashboard/static/css/vendor/* cc_dashboard/static/css/vendor
+$ cp examples/dashboard/static/css/vendor/* cc_dashboard/static/css/vendor
 $ touch cc_dashboard/static/css/styles.css 
 $ touch cc_dashboard/static/js/metrics_graphs.js cc_dashboard/static/js/d3_graphs.js
-$ cp /vagrant/examples/dashboard/static/js/vendor/* cc_dashboard/static/js/vendor
+$ cp examples/dashboard/static/js/vendor/* cc_dashboard/static/js/vendor
 ```
 
 The final link in the chain is to get the browser to load and execute the JS visualisation code when we navigate to the web app. To accomplish this we modify the `cc_dashboard/templates/index.html` file:

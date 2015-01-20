@@ -69,7 +69,7 @@ var circles = drawing.append("g")
 We are going to use a new dataset that has already been prepated for visualisation. The data source is the Penn World Tables. Each country's GDP is converted into US Dollar terms (2005 constant prices) using Purchasing Power Parity weighting. The conversion to real terms allows us to see changes in volumes over time, while the conversion to USD using PPP allows for a common unit of expression. We copy the data to the app folder.
 
 ```
-$ cp /vagrant/examples/dashboard/static/data.json cc_dashboard/static
+$ cp examples/dashboard/static/data.json cc_dashboard/static
 ```
 
 Our d3 heatmap code will be in `static/js/d3_graphs.js`.

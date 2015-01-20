@@ -183,12 +183,11 @@ cc_dashboard/
         - index.html
 ```
 
-Suppose you're in the vagrant VM in your `/vagrant` folder, then you can create the structure like this:
+You can create the structure like this:
 
 ```sh
 $ mkdir -p cc_dashboard/static/css cc_dashboard/static/js cc_dashboard/templates
 $ touch cc_dashboard/app.py cc_dashboard/analysis_tools.py cc_dashboard/templates/index.html
-$ cp /vagrant/data/moviedb cc_dashboard
 ```
 
 We will create the code in there as we go along. Now  use the `analysis_tools.py` file to create these functions as we go along.
