@@ -24,21 +24,24 @@ Visualisation tools for analysis
 
 ### Expected programming experience and preparation
 
-I will assume that you will have either done this or that you understand that material:
+I will assume that you will have either done this or that you understand the material:
 * [python](http://www.codecademy.com/tracks/python)
 * [javascript](http://www.codecademy.com/tracks/javascript)
 
+If you do not know about version control with git then it is a good idea to try it out [here](https://try.github.io/levels/1/challenges/1).
+
 ### Get the VM running
 
+To run all the course material you can use Virtual Box to run an Ubuntu machine (with a GUI) that has everything already installed.
+
 1. Download and install Oracle Virtual Box [here](http://download.virtualbox.org/virtualbox/4.2.0/)
-2. Get the VM files and start the machine
-3. Run the test script to make sure everything is working
+2. Get the VM zip file: downloadable [here](https://dl.dropboxusercontent.com/u/104325750/pydatsci_vm.zip) warning: large zip file ~2GB, unzip it
+3. Start the VM: in Vbox go to Machine -> Add -> ...path_to_folder.../pydatsci_vm/pydatsci_vm.box
+4. Run the test script in the terminal (to open press `alt + ctl + t`): `$ ./test.sh`
 
-For vbox [display](http://askubuntu.com/questions/452108/cannot-change-screen-size-from-640x480-after-14-04-installation-on-virtualbox-os) improvements.
+Alternatively you can have a look at the `installs.sh` file and make sure you have everything running on your machine.
 
-### Try git
-
-If you do not know about version control with git then it is a good idea to try it out [here](https://try.github.io/levels/1/challenges/1).
+Note: for vbox [display](http://askubuntu.com/questions/452108/cannot-change-screen-size-from-640x480-after-14-04-installation-on-virtualbox-os) improvements.
 
 ### LICENSE
 
